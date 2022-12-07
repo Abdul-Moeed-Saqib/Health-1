@@ -16,14 +16,14 @@ app.use((req, res, next) => {
     next();
 })
 
-const corsOptions = {
+/* const corsOptions = {
     origin: ["http://localhost:3000"],
     credentials: true
   };
 
-app.use(cors(corsOptions));
+app.use(cors(corsOptions)); */
 
-/* app.use('/graphql', graphqlHTTP( (request, response) =>  {
+app.use('/graphql', graphqlHTTP( (request, response) =>  {
     return {
       schema: schema,
       rootValue: global,
@@ -34,9 +34,9 @@ app.use(cors(corsOptions));
         res: response
       }
     }
-  })); */
+  }));
 
-/* mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI)
  .then(() => {
     app.listen(process.env.PORT, () => {
         console.log('listening on port', process.env.PORT);
@@ -44,4 +44,4 @@ app.use(cors(corsOptions));
  })
  .catch((error) => {
     console.log(error);
- }) */
+ })
