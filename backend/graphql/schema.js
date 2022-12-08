@@ -1,14 +1,10 @@
 const User = require("../models/user");
-<<<<<<< Updated upstream
 const MotivationalTip = require("../models/motivationalTip");
 const EmergencyAlertType = require("../models/emergencyAlert");
 const VitalSign = require("../models/vitalSign");
 
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-=======
-const MotivationalTip = require('../models/motivationalTip');
->>>>>>> Stashed changes
 
 const {
   GraphQLObjectType,
@@ -121,4 +117,9 @@ const mutation = new GraphQLObjectType({
       }
     }
   }
+})
+
+module.exports = new GraphQLSchema({
+  query: RootQuery,
+  mutation
 })
