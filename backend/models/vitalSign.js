@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose
 
-const VitalSignSchema = new mongoose.Schema({
+const VitalSignSchema = new Schema({
   bodyTem: {
     type: Number,
   },

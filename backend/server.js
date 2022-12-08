@@ -12,8 +12,8 @@ const app = express();
 app.use(express.json());
 
 app.use((req, res, next) => {
-    console.log(req.path, req.method);
-    next();
+  console.log(req.path, req.method);
+  next();
 })
 
 /* const corsOptions = {
@@ -23,25 +23,25 @@ app.use((req, res, next) => {
 
 app.use(cors(corsOptions)); */
 
-app.use('/graphql', graphqlHTTP( (request, response) =>  {
-    return {
-      schema: schema,
-      rootValue: global,
-      graphiql: true,
-      context: {
-        
-        req: request,
-        res: response
-      }
-    }
-  }));
+app.use('/graphql', graphqlHTTP((request, response) => {
+  return {
+    schema: schema,
+    rootValue: global,
+    graphiql: true,
+    context: {
 
-mongoose.connect(process.env.MONGO_URI)
- .then(() => {
+      req: request,
+      res: response
+    }
+  }
+}));
+
+mongoose.connect(process.env.MONGO_LOCAL)
+  .then(() => {
     app.listen(process.env.PORT, () => {
-        console.log('listening on port', process.env.PORT);
+      console.log('listening on port', process.env.PORT);
     })
- })
- .catch((error) => {
+  })
+  .catch((error) => {
     console.log(error);
- })
+  })

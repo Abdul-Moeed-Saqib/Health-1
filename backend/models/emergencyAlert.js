@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose
 
-const EmerAlertSchema = new mongoose.Schema({
+const EmerAlertSchema = new Schema({
   content: {
     type: String,
   },

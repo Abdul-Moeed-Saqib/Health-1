@@ -1,8 +1,7 @@
-const User = require("../models/user");
 const MotivationalTip = require("../models/motivationalTip");
-const EmergencyAlertType = require("../models/emergencyAlert");
+const EmergencyAlert = require("../models/emergencyAlert");
 const VitalSign = require("../models/vitalSign");
-
+const { userQuery } = require('./userSchema')
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -18,20 +17,21 @@ const {
   GraphQLID,
 } = require("graphql");
 
-const UserType = new GraphQLObjectType({
-  name: "User",
-  fields: () => ({
-    email: { type: GraphQLString },
-    password: { type: GraphQLString },
-    firstName: { type: GraphQLString },
-    lastName: { type: GraphQLString },
-    address: { type: GraphQLString },
-    city: { type: GraphQLString },
-    phoneNumber: { type: GraphQLString },
-    email: { type: GraphQLString },
-    role: { type: GraphQLString },
-  }),
-});
+const { UserType } = require('./userSchema')
+// const UserType = new GraphQLObjectType({
+//   name: "User",
+//   fields: () => ({
+//     email: { type: GraphQLString },
+//     password: { type: GraphQLString },
+//     firstName: { type: GraphQLString },
+//     lastName: { type: GraphQLString },
+//     address: { type: GraphQLString },
+//     city: { type: GraphQLString },
+//     phoneNumber: { type: GraphQLString },
+//     email: { type: GraphQLString },
+//     role: { type: GraphQLString },
+//   }),
+// });
 
 const MotivationalTipType = new GraphQLObjectType({
   name: "MotivationalTip",
@@ -49,8 +49,8 @@ const EmergencyAlertType = new GraphQLObjectType({
     isAccepted: { type: GraphQLBoolean },
     patient: {
       type: UserType,
-      resolve(parent, args) {
-        return User.findById(parent.id);
+      resolve: async (parent, args) => {
+        return await User.findById(parent.id);
       },
     },
   }),
@@ -66,8 +66,8 @@ const VitalSignType = new GraphQLObjectType({
     respiratoryRate: { type: GraphQLFloat },
     patient: {
       type: UserType,
-      resolve(parent, args) {
-        return User.findById(parent.id);
+      resolve: async (parent, args) => {
+        return await User.findById(parent.id);
       },
     },
   }),
@@ -78,20 +78,12 @@ const VitalSignType = new GraphQLObjectType({
 const RootQuery = new GraphQLObjectType({
   name: "RootQuery",
   fields: {
-    user: {
-      type: UserType,
-      args: { id: { name: 'email', type: GraphQLString}},
-      resolve(parent, args) {
-          const email = args.id;
-          const user = User.findOne({email});
-          return user;
-      }
-    },
+    ...userQuery,
     motiavtionalTip: {
       type: MotivationalTipType,
-      resolve(parent, args) {
+      resolve: async (parent, args) => {
         const rand = Math.floor(Math.random() * MotivationalTip.count())
-        const motiavTip = MotivationalTip.findOne().skip(rand);
+        const motiavTip = await MotivationalTip.findOne().skip(rand);
         return motiavTip;
       }
     }
@@ -104,12 +96,12 @@ const mutation = new GraphQLObjectType({
     addMotiavtionalTip: {
       type: MotivationalTipType,
       args: {
-        description: { type: GraphQLNonNull(GraphQLString)},
-        nurseId: { type: GraphQLNonNull(GraphQLString)}
+        description: { type: GraphQLNonNull(GraphQLString) },
+        nurseId: { type: GraphQLNonNull(GraphQLString) }
       },
-      resolve: async function(parent, args) {
+      resolve: async function (parent, args) {
         try {
-          const motiavtional = MotivationalTip.create({description: args.description, nurse: args.nurseId});
+          const motiavtional = await MotivationalTip.create({ description: args.description, nurse: args.nurseId });
           return motiavtional;
         } catch (error) {
           throw Error(error.message);
