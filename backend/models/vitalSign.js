@@ -13,6 +13,10 @@ const VitalSignSchema = new mongoose.Schema({
   RespiratoryRate: {
     type: Number,
   },
+  patient: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 module.exports = mongoose.model("VitalSign", VitalSignSchema);

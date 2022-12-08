@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const EmerAlertSchema = new mongoose.Schema({
-  Content: {
+  content: {
     type: String,
   },
   isAccepted: {
