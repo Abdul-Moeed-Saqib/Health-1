@@ -1,10 +1,14 @@
 const User = require("../models/user");
+<<<<<<< Updated upstream
 const MotivationalTip = require("../models/motivationalTip");
 const EmergencyAlertType = require("../models/emergencyAlert");
 const VitalSign = require("../models/vitalSign");
 
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+=======
+const MotivationalTip = require('../models/motivationalTip');
+>>>>>>> Stashed changes
 
 const {
   GraphQLObjectType,
@@ -94,3 +98,47 @@ const RootQuery = new GraphQLObjectType({
     }
   },
 });
+
+const RootQuery = new GraphQLObjectType({
+  name: "RootQuery",
+  fields: {
+    user: {
+      type: UserType,
+      args: { id: { name: 'email', type: GraphQLString}},
+      resolve(parent, args) {
+          const email = args.id;
+          const user = User.findOne({email});
+          return user;
+      }
+    },
+    motiavtionalTip: {
+      type: MotivationalTipType,
+      resolve(parent, args) {
+        const rand = Math.floor(Math.random() * MotivationalTip.count())
+        const motiavTip = MotivationalTip.findOne().skip(rand);
+        return motiavTip;
+      }
+    }
+  }
+});
+
+const mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: {
+    addMotiavtionalTip: {
+      type: MotivationalTipType,
+      args: {
+        description: { type: GraphQLNonNull(GraphQLString)},
+        nurseId: { type: GraphQLNonNull(GraphQLString)}
+      },
+      resolve: async function(parent, args) {
+        try {
+          const motiavtional = MotivationalTip.create({description: args.description, nurse: args.nurseId});
+          return motiavtional;
+        } catch (error) {
+          throw Error(error.message);
+        }
+      }
+    }
+  }
+})
