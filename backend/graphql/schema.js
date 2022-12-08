@@ -77,27 +77,7 @@ const VitalSignType = new GraphQLObjectType({
   }),
 });
 
-const RootQuery = new GraphQLObjectType({
-  name: "RootQueryType",
-  fields: {
-    users: {
-      type: new GraphQLList(UserType),
-      resolve(parent, args) {
-        return User.find();
-      },
-    },
-    user: {
-      type: UserType,
-      args: { id: { type: GraphQLID } },
-      resolve(parent, args){
-        return User(findById(args.id));
-      }
-    },
-    motivationalTips: {
-      type: new GraphQLList(UserType),
-    }
-  },
-});
+
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQuery",
