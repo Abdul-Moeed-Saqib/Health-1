@@ -3,6 +3,7 @@ const {
   GraphQLString,
   GraphQLList,
   GraphQLID,
+  GraphQLNonNull,
 } = require("graphql");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
@@ -69,6 +70,45 @@ const nurse = {
   resolve: async (parent, args) => {
     const nurse = await User.findById(args.id);
     return nurse;
+  },
+};
+
+//update user
+const updateUser = {
+  type: UserType,
+  args: {
+    id: { type: GraphQLNonNull(GraphQLString) },
+    firstName: { type: GraphQLNonNull(GraphQLString) },
+    lastName: { type: GraphQLNonNull(GraphQLString) },
+    address: { type: GraphQLNonNull(GraphQLString) },
+    city: { type: GraphQLNonNull(GraphQLString) },
+    phoneNumber: { type: GraphQLNonNull(GraphQLString) },
+  },
+  resolve: async (parent, args) => {
+    return User.findByIdAndUpdate(
+      args.id,
+      {
+        $set: {
+          firstName: args.firstName,
+          lastName: args.lastName,
+          address: args.address,
+          city: args.city,
+          phoneNumber: args.phoneNumber,
+        },
+      },
+      { new: true }
+    );
+  },
+};
+
+//delete User
+const deleteUser = {
+  type: UserType,
+  args: {
+    id: { type: new GraphQLNonNull(GraphQLString) },
+  },
+  resolve(parent, args) {
+    return User.findByIdAndRemove(args.id);
   },
 };
 
@@ -172,6 +212,8 @@ const userQuery = {
 const userMutation = {
   register,
   login,
+  updateUser,
+  deleteUser,
 };
 
 module.exports = { userQuery, UserType, userMutation };
