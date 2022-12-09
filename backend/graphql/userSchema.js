@@ -8,6 +8,12 @@ const {
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const validator = require('validator');
+
+const createToken = (id) => {
+  return jwt.sign({_id: id}, process.env.SECRET, {expiresIn: '3d'});
+}
+
 
 // define type
 const UserType = new GraphQLObjectType({
@@ -20,10 +26,18 @@ const UserType = new GraphQLObjectType({
     address: { type: GraphQLString },
     city: { type: GraphQLString },
     phoneNumber: { type: GraphQLString },
-    email: { type: GraphQLString },
     role: { type: GraphQLString },
   }),
 });
+
+const LoggedInType = new GraphQLObjectType({
+  name: "LoggedIn",
+  fields: () => ({
+    firstName: { type: GraphQLString },
+    role: { type: GraphQLString },
+    token: { type: GraphQLString }
+  })
+})
 
 //query all the users
 const user = {
@@ -114,7 +128,7 @@ const deleteUser = {
 
 //register a user
 const register = {
-  type: UserType,
+  type: LoggedInType,
   args: {
     email: { type: GraphQLString },
     password: { type: GraphQLString },
@@ -126,6 +140,14 @@ const register = {
     role: { type: GraphQLString },
   },
   resolve: async (parent, args) => {
+
+    // validating email and password
+    if (!validator.isEmail(args.email)) {
+      throw Error('Email is not valid');
+    }
+    if (!validator.isStrongPassword(args.password)) {
+      throw Error('Password not strong enough');
+    }
     //Check if the user exists in the DB.
     const userInDb = await User.findOne({ email: args.email });
     if (userInDb != null) {
@@ -135,7 +157,7 @@ const register = {
       const salt = await bcrypt.genSalt(10);
       let hashedPassword = await bcrypt.hash(args.password, salt);
       //create a new user
-      const user = new User({
+      const user = {
         email: args.email,
         password: hashedPassword,
         firstName: args.firstName,
@@ -144,22 +166,21 @@ const register = {
         city: args.city,
         phoneNumber: args.phoneNumber,
         role: args.role,
-      });
+      };
+
+      const newUser = await User.create({...user});
+      
+      //generate the token
+      const token = createToken(newUser._id);
+
       //define the payload
       const payload = {
-        user: {
-          id: user._id,
-          email: user.email,
-          role: user.role,
-        },
-      };
-      //generate the token
-      const token = jwt.sign(payload, process.env.SECRET, {
-        expiresIn: 100000,
-      });
-      //attach token to the user
-      user.token = token;
-      return user;
+        firstName: newUser.firstName,
+        role: newUser.role,
+        token
+      }
+      
+      return payload;
     } catch (error) {
       throw new Error(error);
     }
@@ -167,37 +188,38 @@ const register = {
 };
 
 const login = {
-  type: UserType,
+  type: LoggedInType,
   args: {
     email: { type: GraphQLString },
     password: { type: GraphQLString },
   },
   resolve: async (parent, args) => {
+    if (!args.email || !args.password) {
+      throw Error('All fields must be filled');
+    }
+
     let user = await User.findOne({ email: args.email });
     //Check if the user exists
     if (user == null) {
-      throw new Error("Invalid credentials");
+      throw new Error("Invalid Email");
     }
     //Comparing password
     const isMatch = await bcrypt.compare(args.password, user.password);
     if (!isMatch) {
-      throw new Error("Invalid credentials");
+      throw new Error("Invalid Password");
     }
-    //Define payload
-    const payload = {
-      user: {
-        id: user._id,
-        email: user.email,
-        role: user.role,
-      },
-    };
+    
     //Create token
-    token = await jwt.sign(payload, process.env.SECRET, {
-      expiresIn: 100000,
-    });
-    //Attach token to the user
-    user.token = token;
-    return user;
+    const token = createToken(user._id);
+
+    //define the payload
+    const payload = {
+      firstName: user.firstName,
+      role: user.role,
+      token
+    }
+    
+    return payload;
   },
 };
 
