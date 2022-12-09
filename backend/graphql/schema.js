@@ -37,8 +37,14 @@ const { UserType } = require("./userSchema");
 const MotivationalTipType = new GraphQLObjectType({
   name: "MotivationalTip",
   fields: () => ({
+    nurseId: { type: GraphQLString },
     description: { type: GraphQLString },
-    nurse: { type: UserType },
+    nurse: { 
+      type: UserType,
+      resolve: async (parent, args) => {
+        return await MotivationalTip.findById(parent.id);
+      }
+    },
   }),
 });
 
