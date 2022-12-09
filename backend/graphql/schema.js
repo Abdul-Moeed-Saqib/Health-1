@@ -1,7 +1,7 @@
 const MotivationalTip = require("../models/motivationalTip");
 const EmergencyAlert = require("../models/emergencyAlert");
 const VitalSign = require("../models/vitalSign");
-const { userQuery, userMutation, UserType} = require("./userSchema");
+const { userQuery, userMutation, UserType } = require("./userSchema");
 const { requireAuth } = require("../middleware/requireAuth");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -18,17 +18,16 @@ const {
   GraphQLID,
 } = require("graphql");
 
-
 const MotivationalTipType = new GraphQLObjectType({
   name: "MotivationalTip",
   fields: () => ({
     nurseId: { type: GraphQLString },
     description: { type: GraphQLString },
-    nurse: { 
+    nurse: {
       type: UserType,
       resolve: async (parent, args) => {
         return await MotivationalTip.findById(parent.id);
-      }
+      },
     },
   }),
 });
@@ -75,6 +74,32 @@ const RootQuery = new GraphQLObjectType({
         const rand = Math.floor(Math.random() * MotivationalTip.count());
         const motiavTip = await MotivationalTip.findOne().skip(rand);
         return motiavTip;
+      },
+    },
+    emerAlerts: {
+      type: new GraphQLList(EmergencyAlertType),
+      resolve: async (parent, args) => {
+        return EmergencyAlert.find();
+      },
+    },
+    emerAlert: {
+      type: EmergencyAlertType,
+      args: { id: { type: GraphQLID } },
+      resolve: async (parent, args) => {
+        return EmergencyAlert(findById(args.id));
+      },
+    },
+    vitalSigns: {
+      type: new GraphQLList(VitalSignType),
+      resolve: async (parent, args) => {
+        return VitalSign.find();
+      },
+    },
+    vitalSign: {
+      type: VitalSignType,
+      args: { id: { type: GraphQLID } },
+      resolve: async (parent, args) => {
+        return VitalSign(findById(args.id));
       },
     },
   },
