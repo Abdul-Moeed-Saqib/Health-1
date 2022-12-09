@@ -1,4 +1,9 @@
-const { GraphQLObjectType, GraphQLString, GraphQLList,GraphQLID } = require("graphql");
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLList,
+  GraphQLID,
+} = require("graphql");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -67,6 +72,95 @@ const nurse = {
   },
 };
 
+//register a user
+const register = {
+  type: UserType,
+  args: {
+    email: { type: GraphQLString },
+    password: { type: GraphQLString },
+    firstName: { type: GraphQLString },
+    lastName: { type: GraphQLString },
+    address: { type: GraphQLString },
+    city: { type: GraphQLString },
+    phoneNumber: { type: GraphQLString },
+    role: { type: GraphQLString },
+  },
+  resolve: async (parent, args) => {
+    //Check if the user exists in the DB.
+    const userInDb = await User.findOne({ email: args.email });
+    if (userInDb != null) {
+      throw new Error("Email already registerd. Please use another email.");
+    }
+    try {
+      const salt = await bcrypt.genSalt(10);
+      let hashedPassword = await bcrypt.hash(args.password, salt);
+      //create a new user
+      const user = new User({
+        email: args.email,
+        password: hashedPassword,
+        firstName: args.firstName,
+        lastName: args.lastName,
+        address: args.address,
+        city: args.city,
+        phoneNumber: args.phoneNumber,
+        role: args.role,
+      });
+      //define the payload
+      const payload = {
+        user: {
+          id: user._id,
+          email: user.email,
+          role: user.role,
+        },
+      };
+      //generate the token
+      const token = jwt.sign(payload, process.env.SECRET, {
+        expiresIn: 100000,
+      });
+      //attach token to the user
+      user.token = token;
+      return user;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+};
+
+const login = {
+  type: UserType,
+  args: {
+    email: { type: GraphQLString },
+    password: { type: GraphQLString },
+  },
+  resolve: async (parent, args) => {
+    let user = await User.findOne({ email: args.email });
+    //Check if the user exists
+    if (user == null) {
+      throw new Error("Invalid credentials");
+    }
+    //Comparing password
+    const isMatch = await bcrypt.compare(args.password, user.password);
+    if (!isMatch) {
+      throw new Error("Invalid credentials");
+    }
+    //Define payload
+    const payload = {
+      user: {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+      },
+    };
+    //Create token
+    token = await jwt.sign(payload, process.env.SECRET, {
+      expiresIn: 100000,
+    });
+    //Attach token to the user
+    user.token = token;
+    return user;
+  },
+};
+
 const userQuery = {
   user,
   patients,
@@ -75,4 +169,9 @@ const userQuery = {
   nurse,
 };
 
-module.exports = { userQuery, UserType };
+const userMutation = {
+  register,
+  login,
+};
+
+module.exports = { userQuery, UserType, userMutation };
