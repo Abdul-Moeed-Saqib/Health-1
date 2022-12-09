@@ -1,8 +1,8 @@
 const MotivationalTip = require("../models/motivationalTip");
 const EmergencyAlert = require("../models/emergencyAlert");
 const VitalSign = require("../models/vitalSign");
-const { userQuery, userMutation } = require("./userSchema");
-const requireAuth = require("../middleware/requireAuth");
+const { userQuery, userMutation, UserType} = require("./userSchema");
+const { requireAuth } = require("../middleware/requireAuth");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -18,21 +18,6 @@ const {
   GraphQLID,
 } = require("graphql");
 
-const { UserType } = require("./userSchema");
-// const UserType = new GraphQLObjectType({
-//   name: "User",
-//   fields: () => ({
-//     email: { type: GraphQLString },
-//     password: { type: GraphQLString },
-//     firstName: { type: GraphQLString },
-//     lastName: { type: GraphQLString },
-//     address: { type: GraphQLString },
-//     city: { type: GraphQLString },
-//     phoneNumber: { type: GraphQLString },
-//     email: { type: GraphQLString },
-//     role: { type: GraphQLString },
-//   }),
-// });
 
 const MotivationalTipType = new GraphQLObjectType({
   name: "MotivationalTip",
@@ -98,7 +83,7 @@ const RootQuery = new GraphQLObjectType({
 const mutation = new GraphQLObjectType({
   name: "Mutation",
   fields: {
-    ...requireAuth,
+    requireAuth,
     ...userMutation,
     //MotiavtionalTip mutation
     addMotiavtionalTip: {

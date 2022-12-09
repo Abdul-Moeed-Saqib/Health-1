@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 const { GraphQLString } = require("graphql");
-const { UserType } = require("./userSchema");
+const { UserType } = require("../graphql/userSchema");
 
 const requireAuth = {
     type: UserType,
@@ -19,12 +19,12 @@ const requireAuth = {
         try {
             const { _id } = jwt.verify(token, process.env.SECRET);
 
-            const userId = await User.findById(_id).select('_id');
-            return userId;
+            const user = await User.findById(_id);
+            return user;
         } catch (error) {
             throw Error('Request is not authorized');
         }
     }
 }
 
-module.exports = requireAuth;
+module.exports = { requireAuth };
