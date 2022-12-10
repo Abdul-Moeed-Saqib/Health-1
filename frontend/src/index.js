@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink} from '@apollo/client';
+import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import './index.css';
 import App from './App';
 import { AuthContextProvider } from './context/AuthContext';
+import { BrowserRouter } from 'react-router-dom'
 
 const link = createHttpLink({
   uri: 'http://localhost:4000/graphql',
@@ -18,10 +19,12 @@ const client = new ApolloClient({
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <ApolloProvider client={client}>
-      <AuthContextProvider>
-        <App />
-      </AuthContextProvider>
-    </ApolloProvider>
+    <BrowserRouter>
+      <ApolloProvider client={client}>
+        <AuthContextProvider>
+          <App />
+        </AuthContextProvider>
+      </ApolloProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );

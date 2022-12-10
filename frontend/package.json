@@ -14,7 +14,13 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.5",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/icons-material": "^5.10.15",
+    "@mui/lab": "^5.0.0-alpha.109",
+    "@mui/material": "^5.10.15",
+    "react-toastify": "^9.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
