@@ -28,4 +28,12 @@ const REGISTER_USER = gql`
   }
 `;
 
-export { REGISTER_USER };
+const REQUIRE_AUTH = gql`
+mutation RequireAuth($token: String!) {
+  requireAuth(token: $token) {
+    _id
+  }
+}
+`
+
+export { REGISTER_USER, REQUIRE_AUTH };

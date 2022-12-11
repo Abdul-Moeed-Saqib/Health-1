@@ -20,6 +20,10 @@ export default function App() {
         <Route path='/auth' 
         element={!user ? <Auth /> : <Navigate to="/" />} 
         />
+        <Route 
+          path='*'
+          element={!user ? <Auth /> : <Navigate to="/" />}
+        />
       </Routes>
       <ToastContainer />
     </Fragment>
