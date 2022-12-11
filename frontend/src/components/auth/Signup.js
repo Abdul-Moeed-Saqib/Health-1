@@ -7,7 +7,6 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { useNavigate } from 'react-router-dom'
 import { useMutation } from "@apollo/client";
 import { REGISTER_USER } from '../../mutations/userMutations';
 import { useAuthContext } from '../../hooks/useAuthContext';
@@ -25,6 +24,7 @@ export default function Signup() {
     })
 
     const [isLoading, setIsLoading] = useState(null);
+    const [error, setError] = useState(null);
 
     const { dispatch } = useAuthContext();
 
@@ -38,19 +38,17 @@ export default function Signup() {
             setIsLoading(false);
         },
         onError: (error) => {
-            toast.error(error.message, {
-                position: toast.POSITION.TOP_CENTER,
-            })
             setIsLoading(false);
+            setError(error.message);
         }
     })
 
-    const navigate = useNavigate()
 
     const signup = async (e) => {
+        setIsLoading(true);
+        setError(null);
         e.preventDefault();
-        setIsLoading(true)
-        register()
+        await register(user);
     }
 
     return (
@@ -120,6 +118,7 @@ export default function Signup() {
             />
 
             <Button type="submit" variant="contained" sx={{ mt: '10px', fontSize: '18px' }} disabled={isLoading}>Sign Up</Button>
+            {error && <div className="error">{error}</div>}
         </Box>
     )
 }

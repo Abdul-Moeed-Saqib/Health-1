@@ -1,4 +1,7 @@
 import React from 'react'
+import NurseHome from "./NurseHome";
+import PatientHome from "./PatientHome";
+
 import { Link } from "react-router-dom";
 import { useLogout } from '../hooks/useLogout';
 
@@ -11,7 +14,9 @@ export default function Home({ name }) {
 
     return (
         <div>
-            <h1>{name}</h1>
+            <h1>Welcome, {name}</h1>
+            {role === "nurse" ? <NurseHome /> : <PatientHome />}
+            <button onClick={handleClick}>Logout</button>
         </div>
     )
 }
