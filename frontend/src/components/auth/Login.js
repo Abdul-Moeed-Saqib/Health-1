@@ -1,17 +1,12 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import { useMutation } from "@apollo/client"
 import { LOGIN_USER } from '../../mutations/userMutations'
 import { useAuthContext } from '../../hooks/useAuthContext';
-
+import { toastErrorBot } from '../../utils/utils'
 
 export default function Login() {
 
@@ -36,10 +31,7 @@ export default function Login() {
             }
         },
         onError: (error) => {
-            console.log('error', error);
-            toast.error('Invalid credentials, try again!', {
-                position: toast.POSITION.BOTTOM_CENTER
-            })
+            toastErrorBot(error.message)
         }
     })
 

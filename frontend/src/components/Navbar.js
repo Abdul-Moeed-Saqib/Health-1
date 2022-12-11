@@ -2,19 +2,24 @@ import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { useLogout } from '../hooks/useLogout'
 import { useAuthContext } from "../hooks/useAuthContext";
+import { Toolbar } from "@mui/material";
 
-export default function Navbar() {
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+
+export default function Navbar({ handleDrawerOpen, open, setOpen }) {
 
   const { user, setTabValue } = useAuthContext()
 
   const { logout } = useLogout()
 
   return (
-    <Fragment>
-      <nav className="navbar bg-light">
-        <h1>
-          <Link to="/">Health-1</Link>
-        </h1>
+    <Toolbar className='navbar bg-light' sx={{ d: 'flex', justifyContent: 'space-between' }}>
+
+      <h1>
+        <Link to="/">Health-1</Link>
+      </h1>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         <ul>
           {
             user ?
@@ -35,7 +40,19 @@ export default function Navbar() {
               </Fragment>
           }
         </ul>
-      </nav>
-    </Fragment>
+        {
+          user && <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="end"
+            onClick={handleDrawerOpen}
+            sx={{ ...(open && { display: 'none' }) }}
+          >
+            <MenuIcon />
+          </IconButton>
+        }
+
+      </div>
+    </Toolbar>
   );
 }

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { toast } from 'react-toastify';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -10,6 +9,7 @@ import Select from '@mui/material/Select';
 import { useMutation } from "@apollo/client";
 import { REGISTER_USER } from '../../mutations/userMutations';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import { toastErrorBot } from '../../utils/utils'
 
 export default function Signup() {
     const [user, setUser] = useState({
@@ -38,9 +38,7 @@ export default function Signup() {
         },
         onError: (error) => {
             setIsLoading(false);
-            toast.error(error.message, {
-                position: toast.POSITION.BOTTOM_CENTER
-            })
+            toastErrorBot(error.message)
         }
     })
 
@@ -116,7 +114,6 @@ export default function Signup() {
                 value={user.phoneNumber}
                 onChange={e => { setUser({ ...user, phoneNumber: e.target.value }) }}
             />
-
             <Button type="submit" variant="contained" sx={{ mt: '10px', fontSize: '18px' }} disabled={isLoading}>Sign Up</Button>
         </Box>
     )
