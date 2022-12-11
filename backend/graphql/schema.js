@@ -157,6 +157,18 @@ const mutation = new GraphQLObjectType({
         }
       },
     },
+    updateEmergencyAlert: {
+      type: EmergencyAlertType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLString)},
+        isAccepted: { type: GraphQLNonNull(GraphQLBoolean)}
+      },
+      resolve: async function(parent, args) {
+        return EmergencyAlert.findByIdAndUpdate(args.id, {
+          isAccepted: args.isAccepted
+        }, {new: true});
+      }
+    },
     deleteEmergencyAlert: {
       type: EmergencyAlertType,
       args: {
