@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import { toast } from 'react-toastify';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -33,11 +34,13 @@ export default function Signup() {
             localStorage.setItem('user', JSON.stringify(data.register));
 
             // updating the auth context
-            dispatch({type: 'LOGIN', payload: data.register});
+            dispatch({ type: 'LOGIN', payload: data.register });
             setIsLoading(false);
         },
         onError: (error) => {
-            alert(error.message);
+            toast.error(error.message, {
+                position: toast.POSITION.TOP_CENTER,
+            })
             setIsLoading(false);
         }
     })
@@ -46,8 +49,8 @@ export default function Signup() {
 
     const signup = async (e) => {
         e.preventDefault();
-        await register(user);
-        setIsLoading(true);
+        setIsLoading(true)
+        register()
     }
 
     return (

@@ -15,10 +15,10 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path='/'
-         element={user ? <Home name={user.firstName} role={user.role} /> : <Navigate to="/auth" /> } 
-         />
-        <Route path='/auth' 
-        element={!user ? <Auth /> : <Navigate to="/" />} 
+          element={user ? <Home name={user.firstName} role={user.role} /> : <Navigate to="/auth" />}
+        />
+        <Route path='/auth'
+          element={!user ? <Auth /> : <Navigate to="/" />}
         />
       </Routes>
       <ToastContainer />
