@@ -30,7 +30,7 @@ export default function Signup() {
     const [register] = useMutation(REGISTER_USER, {
         variables: { ...user },
         onCompleted: (data) => {
-            localStorage.setItem('user', JSON.stringify(data));
+            localStorage.setItem('user', JSON.stringify(data.register));
 
             // updating the auth context
             dispatch({type: 'LOGIN', payload: data.register});
@@ -116,7 +116,7 @@ export default function Signup() {
                 onChange={e => { setUser({ ...user, phoneNumber: e.target.value }) }}
             />
 
-            <Button type="submit" variant="contained" sx={{ mt: '10px', fontSize: '18px' }}>Sign Up</Button>
+            <Button type="submit" variant="contained" sx={{ mt: '10px', fontSize: '18px' }} disabled={isLoading}>Sign Up</Button>
         </Box>
     )
 }
