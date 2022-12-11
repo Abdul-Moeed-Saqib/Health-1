@@ -37,8 +37,8 @@ export default function Signup() {
             setIsLoading(false);
         },
         onError: (error) => {
-            setIsLoading(false);
             alert(error.message);
+            setIsLoading(false);
         }
     })
 

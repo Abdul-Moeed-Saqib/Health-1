@@ -5,6 +5,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify'
 import { useAuthContext } from './hooks/useAuthContext';
+import Navbar from './components/Navbar';
 
 export default function App() {
   const { user } = useAuthContext();

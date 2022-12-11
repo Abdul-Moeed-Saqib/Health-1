@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from "react-router-dom";
 import { useLogout } from '../hooks/useLogout';
 
-export default function Home({firstName}) {
+export default function Home({name}) {
     const { logout } = useLogout();
 
     const handleClick = () => {
@@ -11,7 +11,7 @@ export default function Home({firstName}) {
 
     return (
         <div>
-            <h1>{firstName}</h1>
+            <h1>{name}</h1>
             <button onClick={handleClick}>Logout</button>
         </div>
     )
