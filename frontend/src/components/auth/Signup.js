@@ -24,7 +24,6 @@ export default function Signup() {
     })
 
     const [isLoading, setIsLoading] = useState(null);
-    const [error, setError] = useState(null);
 
     const { dispatch } = useAuthContext();
 
@@ -39,16 +38,17 @@ export default function Signup() {
         },
         onError: (error) => {
             setIsLoading(false);
-            setError(error.message);
+            toast.error(error.message, {
+                position: toast.POSITION.BOTTOM_CENTER
+            })
         }
     })
 
 
     const signup = async (e) => {
-        setIsLoading(true);
-        setError(null);
-        e.preventDefault();
-        await register(user);
+        e.preventDefault()
+        setIsLoading(true)
+        register()
     }
 
     return (
@@ -118,7 +118,6 @@ export default function Signup() {
             />
 
             <Button type="submit" variant="contained" sx={{ mt: '10px', fontSize: '18px' }} disabled={isLoading}>Sign Up</Button>
-            {error && <div className="error">{error}</div>}
         </Box>
     )
 }

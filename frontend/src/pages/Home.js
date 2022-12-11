@@ -5,7 +5,7 @@ import PatientHome from "./PatientHome";
 import { Link } from "react-router-dom";
 import { useLogout } from '../hooks/useLogout';
 
-export default function Home({ name }) {
+export default function Home({ name, role }) {
     const { logout } = useLogout();
 
     const handleClick = () => {
