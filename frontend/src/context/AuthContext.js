@@ -1,4 +1,4 @@
-import { createContext, useReducer, useEffect } from "react";
+import { createContext, useReducer, useEffect, useState } from "react";
 
 export const AuthContext = createContext();
 
@@ -18,16 +18,20 @@ export const AuthContextProvider = ({ children }) => {
         user: null
     });
 
+    // control auth tab to switch between login and signup
+    const [tabValue, setTabValue] = useState("1");
+
+
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
-        
+
         if (user) {
-            dispatch({type: 'LOGIN', payload: user});
+            dispatch({ type: 'LOGIN', payload: user });
         }
     }, []);
 
     return (
-        <AuthContext.Provider value={{...state, dispatch}}>
+        <AuthContext.Provider value={{ ...state, dispatch, tabValue, setTabValue }}>
             {children}
         </AuthContext.Provider>
     )

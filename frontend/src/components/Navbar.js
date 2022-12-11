@@ -1,11 +1,11 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { useLogout } from '../hooks/useLogout'
 import { useAuthContext } from "../hooks/useAuthContext";
 
 export default function Navbar() {
 
-  const { user } = useAuthContext()
+  const { user, setTabValue } = useAuthContext()
 
   const { logout } = useLogout()
 
@@ -27,10 +27,10 @@ export default function Navbar() {
               :
               <Fragment>
                 <li>
-                  <Link to="#" >Signup</Link>
+                  <Link to="#" onClick={() => { setTabValue("2") }} >Signup</Link>
                 </li>
                 <li>
-                  <Link to="#">Login</Link>
+                  <Link to="#" onClick={() => { setTabValue("1") }}>Login</Link>
                 </li>
               </Fragment>
           }
