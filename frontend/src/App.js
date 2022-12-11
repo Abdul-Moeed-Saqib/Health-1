@@ -15,12 +15,12 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path='/'
-          element={user ? <Home name={user.firstName} role={user.role} /> : <Navigate to="/auth" />}
+          element={user ? <Home role={user.role} /> : <Navigate to="/auth" />}
         />
         <Route path='/auth'
           element={!user ? <Auth /> : <Navigate to="/" />}
         />
-        <Route 
+        <Route
           path='*'
           element={!user ? <Auth /> : <Navigate to="/" />}
         />

@@ -1,22 +1,18 @@
 import React from 'react'
 import NurseHome from "./NurseHome";
 import PatientHome from "./PatientHome";
+import Box from '@mui/material/Box';
 
-import { Link } from "react-router-dom";
-import { useLogout } from '../hooks/useLogout';
 
-export default function Home({ name, role }) {
-    const { logout } = useLogout();
+export default function Home({ role }) {
 
-    const handleClick = () => {
-        logout()
-    }
 
     return (
         <div>
-            <h1>Welcome, {name}</h1>
-            {role === "nurse" ? <NurseHome /> : <PatientHome />}
-            <button onClick={handleClick}>Logout</button>
+            <Box sx={{ marginTop: '4rem', display: 'flex', width: '100%' }}>
+                {role === "nurse" ? <NurseHome /> : <PatientHome />}
+            </Box>
+
         </div>
     )
 }

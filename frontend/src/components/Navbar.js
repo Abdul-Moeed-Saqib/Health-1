@@ -19,6 +19,9 @@ export default function Navbar() {
           {
             user ?
               <Fragment>
+                <li>
+                  <Link to="#" >{`Welcome, ${user.firstName}`}</Link>
+                </li>
                 <li><Link to="/" onClick={logout}>Logout</Link></li>
               </Fragment>
               :
