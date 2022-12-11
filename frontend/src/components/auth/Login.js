@@ -36,8 +36,7 @@ export default function Login() {
             }
         },
         onError: (error) => {
-            console.log('error', error);
-            toast.error('Invalid credentials, try again!', {
+            toast.error(error.message, {
                 position: toast.POSITION.BOTTOM_CENTER
             })
         }
