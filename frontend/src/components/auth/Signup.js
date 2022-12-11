@@ -7,6 +7,9 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useNavigate } from 'react-router-dom'
+import { useMutation } from "@apollo/client";
+import { REGISTER_USER } from '../../mutations/userMutations';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 export default function Signup() {
     const [user, setUser] = useState({
@@ -20,10 +23,31 @@ export default function Signup() {
         role: ''
     })
 
+    const [isLoading, setIsLoading] = useState(null);
+
+    const { dispatch } = useAuthContext();
+
+    const [register] = useMutation(REGISTER_USER, {
+        variables: { ...user },
+        onCompleted: (data) => {
+            localStorage.setItem('user', JSON.stringify(data));
+
+            // updating the auth context
+            dispatch({type: 'LOGIN', payload: data.register});
+            setIsLoading(false);
+        },
+        onError: (error) => {
+            setIsLoading(false);
+            alert(error.message);
+        }
+    })
+
     const navigate = useNavigate()
 
-    const signup = async () => {
-
+    const signup = async (e) => {
+        e.preventDefault();
+        await register(user);
+        setIsLoading(true);
     }
 
     return (
