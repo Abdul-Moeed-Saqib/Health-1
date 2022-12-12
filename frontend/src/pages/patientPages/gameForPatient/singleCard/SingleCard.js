@@ -1,4 +1,4 @@
-import './SingleCard.css'
+import styles from './singleCard.module.css'
 
 export default function SingleCard({ card, handleChoice, flipped, disabled }) {
 
@@ -9,10 +9,10 @@ export default function SingleCard({ card, handleChoice, flipped, disabled }) {
   }
 
   return (
-    <div className="card">
-      <div className={flipped ? "flipped" : ""}>
-        <img className="front" src={card.src} alt="card front" />
-        <img className="back" src="/img/cover.webp" onClick={handleClick} alt="cover" />
+    <div className={styles.card}>
+      <div className={flipped ? styles.flipped : ""}>
+        <img className={styles.front} src={card.src} alt="card front" />
+        <img className={styles.back} src="/img/cover.webp" onClick={handleClick} alt="cover" />
       </div>
     </div>
   )

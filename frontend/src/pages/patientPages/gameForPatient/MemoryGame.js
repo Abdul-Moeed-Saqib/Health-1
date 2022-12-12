@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./MemoryGame.css";
+import styles from "./memoryGame.module.css";
 import SingleCard from "./singleCard/SingleCard";
 
 const cardImages = [
@@ -72,12 +72,12 @@ export default function MemoryGame() {
   }, []);
 
   return (
-    <div className="body">
-      <div className="MemoryGame">
+    <div className={styles.body}>
+      <div className={styles.MemoryGame}>
         <h1>Memory Match</h1>
         <button onClick={shuffleCards}>New Game</button>
         <button>GO BACK</button>
-        <div className="card-grid">
+        <div className={styles["card-grid"]}>
           {cards.map((card) => (
             <SingleCard
               key={card.id}
