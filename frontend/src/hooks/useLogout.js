@@ -6,9 +6,9 @@ export const useLogout = () => {
     const logout = () => {
         // removing user from storage
         localStorage.removeItem('user');
-
+        localStorage.removeItem('comp308Token')
         // dispatch logout action to clear out global state user
-        dispatch({type: 'LOGOUT'});
+        dispatch({ type: 'LOGOUT' });
     }
 
     return { logout };

@@ -1,29 +1,28 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
-const { GraphQLString } = require("graphql");
-const { UserType } = require("../graphql/userSchema");
+const requireAuth = async (context) => {
 
-const requireAuth = {
-    type: UserType,
-    args: {
-        token: { type: GraphQLString }
-    },
-    resolve: async (parent, args) => {
-        const token = args.token;
+    const { authorization } = context.req.headers;
 
-        if (!token) {
-            throw Error('Authorization token required');
-        }
+    let token
 
+    if (authorization && authorization.startsWith('Bearer')) {
         try {
-            const { _id } = jwt.verify(token, process.env.SECRET);
+            // Bearer abcddsfasfew(token)
+            token = authorization.split(' ')[1]
 
-            const user = await User.findById(_id);
+            // decode token
+            const { _id } = jwt.verify(token, process.env.SECRET)
+            const user = await User.findById(_id).select('-password');
             return user;
         } catch (error) {
-            throw Error('Request is not authorized');
+            throw new Error('Invalid token');
         }
+    }
+
+    if (!token) {
+        throw new Error('Token must be provided')
     }
 }
 

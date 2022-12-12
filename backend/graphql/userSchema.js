@@ -11,7 +11,7 @@ const jwt = require("jsonwebtoken");
 const validator = require('validator');
 
 const createToken = (id) => {
-  return jwt.sign({_id: id}, process.env.SECRET, {expiresIn: '3d'});
+  return jwt.sign({ _id: id }, process.env.SECRET, { expiresIn: '3d' });
 }
 
 
@@ -169,8 +169,8 @@ const register = {
         role: args.role,
       };
 
-      const newUser = await User.create({...user});
-      
+      const newUser = await User.create({ ...user });
+
       //generate the token
       const token = createToken(newUser._id);
 
@@ -180,7 +180,7 @@ const register = {
         role: newUser.role,
         token
       }
-      
+
       return payload;
     } catch (error) {
       throw new Error(error);
@@ -209,7 +209,7 @@ const login = {
     if (!isMatch) {
       throw new Error("Invalid Password");
     }
-    
+
     //Create token
     const token = createToken(user._id);
 
@@ -219,7 +219,7 @@ const login = {
       role: user.role,
       token
     }
-    
+
     return payload;
   },
 };

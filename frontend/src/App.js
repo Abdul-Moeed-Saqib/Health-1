@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import Auth from './pages/Auth'
 import Home from './pages/Home'
 import { Routes, Route, Navigate } from 'react-router-dom'

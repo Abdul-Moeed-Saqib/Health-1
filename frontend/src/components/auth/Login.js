@@ -21,9 +21,10 @@ export default function Login() {
 
     const [login] = useMutation(LOGIN_USER, {
         variables: { ...user },
-        onCompleted: (loginData) => {
-            const { login } = loginData
+        onCompleted: (data) => {
+            const { login } = data
             localStorage.setItem('user', JSON.stringify(login));
+            localStorage.setItem('comp308Token', data.login.token)
             // updating the auth context
             dispatch({ type: 'LOGIN', payload: login });
             if (login.role === 'nurse') {

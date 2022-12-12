@@ -78,7 +78,8 @@ const RootQuery = new GraphQLObjectType({
     },
     emerAlerts: {
       type: new GraphQLList(EmergencyAlertType),
-      resolve: async (parent, args) => {
+      resolve: async (parent, args, context) => {
+        await requireAuth(context)
         return EmergencyAlert.find();
       },
     },
@@ -108,7 +109,6 @@ const RootQuery = new GraphQLObjectType({
 const mutation = new GraphQLObjectType({
   name: "Mutation",
   fields: {
-    requireAuth,
     ...userMutation,
     //MotiavtionalTip mutation
     addMotiavtionalTip: {
@@ -160,13 +160,13 @@ const mutation = new GraphQLObjectType({
     updateEmergencyAlert: {
       type: EmergencyAlertType,
       args: {
-        id: { type: GraphQLNonNull(GraphQLString)},
-        isAccepted: { type: GraphQLNonNull(GraphQLBoolean)}
+        id: { type: GraphQLNonNull(GraphQLString) },
+        isAccepted: { type: GraphQLNonNull(GraphQLBoolean) }
       },
-      resolve: async function(parent, args) {
+      resolve: async function (parent, args) {
         return EmergencyAlert.findByIdAndUpdate(args.id, {
           isAccepted: args.isAccepted
-        }, {new: true});
+        }, { new: true });
       }
     },
     deleteEmergencyAlert: {

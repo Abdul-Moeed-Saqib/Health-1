@@ -30,8 +30,9 @@ export default function Signup() {
     const [register] = useMutation(REGISTER_USER, {
         variables: { ...user },
         onCompleted: (data) => {
-            localStorage.setItem('user', JSON.stringify(data.register));
 
+            localStorage.setItem('user', JSON.stringify(data.register));
+            localStorage.setItem('comp308Token', data.register.token)
             // updating the auth context
             dispatch({ type: 'LOGIN', payload: data.register });
             setIsLoading(false);

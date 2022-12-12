@@ -19,9 +19,9 @@ export default function Auth() {
     };
 
     return (
-        <Fragment>
+        <div style={{ overflow: 'hidden' }}>
             <Navbar />
-            <Box className='container-auth' sx={{ height: '100vh', width: '100vw', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Box className='container-auth' sx={{ height: '91vh', width: '100vw', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <TabContext value={tabValue}>
                         <Box sx={{ width: '100%' }}>
@@ -35,6 +35,6 @@ export default function Auth() {
                     </TabContext>
                 </Box>
             </Box>
-        </Fragment>
+        </div>
     )
 }
