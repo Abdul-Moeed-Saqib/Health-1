@@ -1,5 +1,6 @@
 const MotivationalTip = require("../models/motivationalTip");
 const EmergencyAlert = require("../models/emergencyAlert");
+const User = require("../models/user");
 const VitalSign = require("../models/vitalSign");
 const { userQuery, userMutation, UserType } = require("./userSchema");
 const { requireAuth } = require("../middleware/requireAuth");
@@ -35,13 +36,14 @@ const MotivationalTipType = new GraphQLObjectType({
 const EmergencyAlertType = new GraphQLObjectType({
   name: "EmergencyAlert",
   fields: () => ({
-    id: { type: GraphQLString },
+    _id: { type: GraphQLString },
+    id: { type: GraphQLString},
     content: { type: GraphQLString },
     isAccepted: { type: GraphQLBoolean },
     patient: {
       type: UserType,
       resolve: async (parent, args) => {
-        return await User.findById(parent.id);
+        return await User.findById(parent.patient);
       },
     },
   }),
@@ -143,13 +145,17 @@ const mutation = new GraphQLObjectType({
       type: EmergencyAlertType,
       args: {
         content: { type: GraphQLNonNull(GraphQLString) },
-        patientId: { type: GraphQLNonNull(GraphQLString) },
       },
-      resolve: async function (parent, args) {
+      resolve: async function (parent, args, context) {
         try {
+          const user = await requireAuth(context);
+          const exists = await EmergencyAlert.findOne({ patient: user._id});
+          if (exists) {
+            throw Error('You already send an emergency. Please wait.');
+          }
           const emerAlert = await EmergencyAlert.create({
-            constent: args.constent,
-            parent: args.patientId,
+            content: args.content,
+            patient: user._id,
           });
           return emerAlert;
         } catch (error) {

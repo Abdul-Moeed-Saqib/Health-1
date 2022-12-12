@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify'
 import { useAuthContext } from './hooks/useAuthContext';
 import MemoryGame from './pages/patientPages/gameForPatient/MemoryGame';
+import CallEmergency from './pages/CallEmergency';
 export default function App() {
   const { user } = useAuthContext();
 
@@ -21,6 +22,10 @@ export default function App() {
         <Route
           path='*'
           element={!user ? <Auth /> : <Navigate to="/" />}
+        />
+        <Route 
+          path='/emergency'
+          element={user ? <CallEmergency /> : <Navigate to="/auth" />}
         />
         <Route path="/memoryGame" element={<MemoryGame />} />
       </Routes>
