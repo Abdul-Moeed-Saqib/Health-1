@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import NurseHome from "./NurseHome";
-import PatientHome from "./PatientHome";
+import PatientHome from "./patientPages/PatientHome";
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
