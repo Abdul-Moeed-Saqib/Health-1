@@ -1,12 +1,9 @@
 import { useMutation } from "@apollo/client";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { UPDATE_EMERG } from "../mutations/emergencyMutations";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import { Box, Button, Typography, Card, CardContent, CardHeader, CardActions } from "@mui/material";
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import MyAvatar from '../components/miscellaneous/MyAvatar'
 
 const EmergencyDetails = ({ emergency, refetch }) => {
   const { user } = useAuthContext();
@@ -16,17 +13,25 @@ const EmergencyDetails = ({ emergency, refetch }) => {
     },
   });
 
+  const acceptEmergency = () => {
+
+  }
+
   return (
-    <Card sx={{ minWidth: 275 }}>
-      <CardContent>
-        <Typography variant="h5" component="div">
-          Send By {emergency.patient.firstName + " " + emergency.patient.lastName}
-        </Typography>
-        <Typography variant="body2">
-        <p>{emergency.content}</p>
-        <p><strong>Located: </strong>{emergency.patient.city}</p>
-        </Typography>
-      </CardContent>
+    <Card sx={{ m: '0.8rem 0.8rem 0 0' }} key={emergency._id}>
+      <CardHeader
+        avatar={
+          <MyAvatar username={emergency.patient.firstName} />
+        }
+        action={
+          <Button variant='contained' color='success' aria-label="settings"
+            sx={{ ml: '0.6rem' }} onClick={() => acceptEmergency(emergency)}>
+            <LocalHospitalIcon fontSize='small' />
+          </Button>
+        }
+        title={emergency.content}
+        subheader={`Send by ${emergency.patient.firstName} ${emergency.patient.lastName} Located: ${emergency.patient.city}`}
+      />
     </Card>
   );
 };

@@ -6,6 +6,11 @@ import App from './App';
 import { AuthContextProvider } from './context/AuthContext';
 import { BrowserRouter } from 'react-router-dom'
 import { setContext } from '@apollo/client/link/context'
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
 
 const link = createHttpLink({
   uri: 'http://localhost:4000/graphql',

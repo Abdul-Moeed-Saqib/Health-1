@@ -6,28 +6,15 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import { ToastContainer } from 'react-toastify'
 import { useAuthContext } from './hooks/useAuthContext';
 import MemoryGame from './pages/patientPages/gameForPatient/MemoryGame';
-import CallEmergency from './pages/CallEmergency';
+
 export default function App() {
   const { user } = useAuthContext();
 
   return (
     <Fragment>
       <Routes>
-        <Route path='/'
-          element={user ? <Home role={user.role} /> : <Navigate to="/auth" />}
-        />
-        <Route path='/auth'
-          element={!user ? <Auth /> : <Navigate to="/" />}
-        />
-        <Route
-          path='*'
-          element={!user ? <Auth /> : <Navigate to="/" />}
-        />
-        <Route
-          path='/emergency'
-          element={user ? <CallEmergency /> : <Navigate to="/auth" />}
-        />
-        <Route path="/memoryGame" element={<MemoryGame />} />
+        <Route path='/' element={user ? <Navigate to='/home' /> : <Auth />} />
+        <Route path='/home/*' element={<Home />} />
       </Routes>
       <ToastContainer />
     </Fragment>

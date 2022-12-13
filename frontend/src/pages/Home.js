@@ -9,6 +9,11 @@ import SideDrawer from '../components/Sidedrawer'
 import { useAuthContext } from '../hooks/useAuthContext'
 import NavBar from '../components/Navbar'
 import { styled, useTheme } from '@mui/material/styles';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import MemoryGame from '../pages/patientPages/gameForPatient/MemoryGame';
+import CallEmergency from './CallEmergency'
+import Auth from './Auth';
+import '../resource/css/home.css'
 
 const drawerWidth = 240;
 
@@ -57,13 +62,13 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'flex-end',
 }));
 
-export default function Home({ role }) {
+export default function Home() {
 
     const theme = useTheme();
 
     const { user } = useAuthContext()
 
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(user ? true : false);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -72,7 +77,6 @@ export default function Home({ role }) {
     const handleDrawerClose = () => {
         setOpen(false);
     };
-
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -84,7 +88,13 @@ export default function Home({ role }) {
             </AppBar>
             <Main open={open} user={user}>
                 <DrawerHeader />
-                {role === "nurse" ? <NurseHome /> : <PatientHome />}
+                <Box className='container-home' sx={{ width: '100%', minHeight: '91vh', p: '2rem 4rem' }}>
+                    <Routes>
+                        <Route path='/emergency' element={user ? <CallEmergency /> : <Auth />} />
+                        <Route path="/memoryGame" element={<MemoryGame />} />
+                        <Route path='*' element={user ? user.role === 'nurse' ? <NurseHome /> : <PatientHome /> : <Auth />} />
+                    </Routes>
+                </Box>
             </Main>
             {
                 user && <SideDrawer open={open} handleDrawerOpen={handleDrawerOpen} handleDrawerClose={handleDrawerClose} />
