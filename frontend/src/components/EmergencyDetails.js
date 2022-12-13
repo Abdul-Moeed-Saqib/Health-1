@@ -11,21 +11,24 @@ const EmergencyDetails = ({ emergency, refetch }) => {
     onCompleted: (data) => {
       refetch();
     },
+    onError: (error) => {
+      alert(error.message);
+    }
   });
 
-  const acceptEmergency = () => {
-
+  const acceptEmergency = (e) => {
+    e.preventDefault();
+    if (user) {
+      updateEmergencyAlert({variables: {id: emergency._id, isAccepted: true}});
+    }
   }
 
   return (
     <Card sx={{ m: '0.8rem 0.8rem 0 0' }} key={emergency._id}>
       <CardHeader
-        avatar={
-          <MyAvatar username={emergency.patient.firstName} />
-        }
         action={
           <Button variant='contained' color='success' aria-label="settings"
-            sx={{ ml: '0.6rem' }} onClick={() => acceptEmergency(emergency)}>
+            sx={{ ml: '0.6rem' }} onClick={(e) => acceptEmergency(e)}>
             <LocalHospitalIcon fontSize='small' />
           </Button>
         }

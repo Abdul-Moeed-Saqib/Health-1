@@ -7,7 +7,7 @@ export default function PatientHome() {
         <Fragment>
             patient home
             <br />
-            <Link to="/emergency">Send Emergency</Link>
+            <Link to="/home/emergency">Send Emergency</Link>
         </Fragment>
     )
 }
