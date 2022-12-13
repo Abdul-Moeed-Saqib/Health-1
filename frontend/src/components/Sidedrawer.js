@@ -1,9 +1,19 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom';
 import { styled, useTheme } from "@mui/material/styles";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ListSubheader from '@mui/material/ListSubheader';
+import List from '@mui/material/List';
+import { ListItemButton, ListItem } from '@mui/material';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+
+
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import PersonIcon from '@mui/icons-material/Person';
 
 const drawerWidth = 240;
 
@@ -41,6 +51,20 @@ export default function SideDrawer({ open, handleDrawerClose }) {
                     )}
                 </IconButton>
             </DrawerHeader>
+
+            <List
+                sx={{ width: '100%', maxWidth: 240, bgcolor: 'background.paper' }}
+                component="nav"
+                aria-labelledby="nested-list-subheader"
+            >
+                <ListItemButton component={NavLink} to={`/home/patients`} sx={{ pl: 4 }}>
+                    <ListItemIcon>
+                        <PersonIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Profile" />
+                </ListItemButton>
+
+            </List>
         </Drawer>
     )
 }
