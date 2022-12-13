@@ -21,6 +21,7 @@ export const AuthContextProvider = ({ children }) => {
     // control auth tab to switch between login and signup
     const [tabValue, setTabValue] = useState("1");
 
+    const [acceptedState, setAcceptState] = useState(true)
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
@@ -31,7 +32,7 @@ export const AuthContextProvider = ({ children }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ ...state, dispatch, tabValue, setTabValue }}>
+        <AuthContext.Provider value={{ ...state, dispatch, tabValue, setTabValue, acceptedState, setAcceptState }}>
             {children}
         </AuthContext.Provider>
     )
