@@ -15,6 +15,7 @@ import CallEmergency from './CallEmergency'
 import Auth from './Auth';
 import '../resource/css/home.css'
 import PatientList from './PatientList';
+import DailyInformation from './patientPages/DailyInformation';
 
 const drawerWidth = 240;
 
@@ -94,6 +95,7 @@ export default function Home() {
                         <Route path='/emergency' element={user ? <CallEmergency /> : <Auth />} />
                         <Route path="/memoryGame" element={<MemoryGame />} />
                         <Route path='/patients' element={<PatientList />} />
+                        <Route path='/dailyInfo' element={<DailyInformation />} />
                         <Route path='*' element={user ? user.role === 'nurse' ? <NurseHome /> : <PatientHome /> : <Auth />} />
                     </Routes>
                 </Box>

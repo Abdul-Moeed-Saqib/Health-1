@@ -52,7 +52,7 @@ export default function PatientList() {
     }
 
     const toAddVitalSignPage = (patientId) => {
-        navigate('/', { state: { patientId } })
+        navigate('/home/dailyInfo', { state: { patientId } })
     }
 
 
