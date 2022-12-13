@@ -20,9 +20,7 @@ const EmergencyDetails = ({ emergency, refetch }) => {
   return (
     <Card sx={{ m: '0.8rem 0.8rem 0 0' }} key={emergency._id}>
       <CardHeader
-        avatar={
-          <MyAvatar username={emergency.patient.firstName} />
-        }
+
         action={
           <Button variant='contained' color='success' aria-label="settings"
             sx={{ ml: '0.6rem' }} onClick={() => acceptEmergency(emergency)}>
