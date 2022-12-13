@@ -85,6 +85,13 @@ const RootQuery = new GraphQLObjectType({
         return EmergencyAlert.find();
       },
     },
+    findEmerAlert: {
+      type: EmergencyAlertType,
+      resolve: async (parent, args, context) => {
+        const user = await requireAuth(context);
+        return EmergencyAlert.findOne({ patient: user._id});
+      }
+    },
     emerAlert: {
       type: EmergencyAlertType,
       args: { id: { type: GraphQLID } },

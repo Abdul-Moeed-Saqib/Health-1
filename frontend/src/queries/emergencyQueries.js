@@ -15,4 +15,13 @@ query getEmergencies {
   }
 `
 
-export { GET_EMERGIENCIES };
+const GET_EMERGENCY = gql`
+  query getEmergency {
+    findEmerAlert {
+      _id,
+      isAccepted 
+    }
+  }
+`
+
+export { GET_EMERGIENCIES, GET_EMERGENCY};
