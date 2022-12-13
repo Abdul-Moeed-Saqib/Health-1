@@ -24,4 +24,12 @@ mutation UpdateEmergencyAlert($id: String!, $isAccepted: Boolean!) {
   }
 `
 
-export { UPDATE_EMERG, ADD_EMERG};
+const DELETE_EMERG = gql`
+  mutation DeleteEmergencyAlert($id: String!) {
+    deleteEmergencyAlert(id: $id) {
+      _id
+    }
+  }
+`
+
+export { UPDATE_EMERG, ADD_EMERG, DELETE_EMERG};
