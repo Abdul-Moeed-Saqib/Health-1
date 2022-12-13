@@ -13,8 +13,8 @@ export default function DailyInformation() {
   const [dailyInfo, setDailyInfo] = useState({
     bodyTem: "",
     heartRate: "",
-    BloodPre: "",
-    RespiratoryRate: "",
+    bloodPre: "",
+    respiratoryRate: "",
   });
   const [isLoading, setIsLoading] = useState(null);
   const { user } = useAuthContext();
@@ -39,12 +39,14 @@ export default function DailyInformation() {
     e.preventDefault();
     setIsLoading(true);
     if (user) {
+
       addVitalSign({
         variables: {
           ...dailyInfo,
           patientId: user._id,
         },
       });
+    
     }
   };
 
@@ -68,6 +70,7 @@ export default function DailyInformation() {
         type="number"
         sx={{ minWidth: "400px", margin: "5px 0" }}
         value={dailyInfo.bodyTem}
+        name="bodyTem"
         onChange={onChange}
       />
       <TextField
@@ -76,6 +79,7 @@ export default function DailyInformation() {
         label="Heart Rate"
         sx={{ minWidth: "400px", margin: "5px 0" }}
         value={dailyInfo.heartRate}
+        name="heartRate"
         onChange={onChange}
       />
       <TextField
@@ -83,7 +87,8 @@ export default function DailyInformation() {
         label="Blood Pressure"
         type="number"
         sx={{ minWidth: "400px", margin: "5px 0" }}
-        value={dailyInfo.BloodPre}
+        value={dailyInfo.bloodPre}
+        name="bloodPre"
         onChange={onChange}
       />
       <TextField
@@ -91,7 +96,8 @@ export default function DailyInformation() {
         label="Respiratory Rate"
         type="number"
         sx={{ minWidth: "400px", margin: "5px 0" }}
-        value={dailyInfo.RespiratoryRate}
+        value={dailyInfo.respiratoryRate}
+        name="respiratoryRate"
         onChange={onChange}
       />
       <Button

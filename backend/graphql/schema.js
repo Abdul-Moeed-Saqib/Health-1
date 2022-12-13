@@ -201,7 +201,8 @@ const mutation = new GraphQLObjectType({
         respiratoryRate: { type: GraphQLNonNull(GraphQLFloat) },
         patientId: { type: GraphQLNonNull(GraphQLString) },
       },
-      resolve: async function (parent, args) {
+      resolve: async function (parent, args, context) {
+        //  await requireAuth(context);
         try {
           const vitalSign = await VitalSign.create({
             bodyTem: args.bodyTem,

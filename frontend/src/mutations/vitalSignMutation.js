@@ -3,16 +3,17 @@ import { gql } from "@apollo/client";
 const ADD_VITAL = gql`
 mutation AddVitalSign(
     $patientId: String!
-    $bodyTem: Number!
-    $heartRate: Number!
-    $bloodPre: Number!
-    $respiratoryRate: Number!
+    $bodyTem: Float!
+    $heartRate: Float!
+    $bloodPre: Float!
+    $respiratoryRate: Float!
     ) {
         addVitalSign(
             patientId: $patientId,
             bodyTem: $bodyTem,
             heartRate:$heartRate,
-            bloodPre:$bloodPre
+            bloodPre:$bloodPre,
+            respiratoryRate: $respiratoryRate
             ){
                 bodyTem,
                 heartRate,
@@ -32,7 +33,6 @@ mutation DeleteVitalSign(
         id
     }
 }
-
 `
 
 export { ADD_VITAL, DELETE_VITAL};

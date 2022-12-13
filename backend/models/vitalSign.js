@@ -8,10 +8,10 @@ const VitalSignSchema = new Schema({
   heartRate: {
     type: Number,
   },
-  BloodPre: {
+  bloodPre: {
     type: Number,
   },
-  RespiratoryRate: {
+  respiratoryRate: {
     type: Number,
   },
   patient: {
