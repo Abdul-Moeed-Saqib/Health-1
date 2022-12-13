@@ -22,6 +22,7 @@ export default function NurseHome() {
         return <div>Loading</div>
     }
 
+    
     return (
         <Fragment>
 

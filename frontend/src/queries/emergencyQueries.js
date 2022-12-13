@@ -5,6 +5,7 @@ query getEmergencies {
     emerAlerts {
       _id,
       content,
+      isAccepted,
       patient {
         firstName,
         lastName,
