@@ -9,8 +9,6 @@ import { toastErrorBot } from '../utils/utils'
 export default function NurseHome() {
     const { acceptedState } = useAuthContext();
 
-    console.log('ac st', acceptedState);
-
     const { loading, data, refetch } = useQuery(GET_EMERGIENCIES, {
         onError: (error) => {
             toastErrorBot(error.message)

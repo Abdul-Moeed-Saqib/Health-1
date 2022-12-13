@@ -24,4 +24,6 @@ const GET_EMERGENCY = gql`
   }
 `
 
-export { GET_EMERGIENCIES, GET_EMERGENCY};
+
+
+export { GET_EMERGIENCIES, GET_EMERGENCY };

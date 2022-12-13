@@ -5,6 +5,7 @@ import { useQuery, useMutation } from '@apollo/client';
 import { GET_EMERGENCY } from '../../queries/emergencyQueries';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { DELETE_EMERG } from '../../mutations/emergencyMutations';
+import { toastErrorBot } from '../../utils/utils'
 
 export default function PatientHome() {
 
@@ -15,15 +16,15 @@ export default function PatientHome() {
             }
         },
         onError: (error) => {
-            alert(error.message);
-          }
+            toastErrorBot(error.message);
+        }
     })
 
-    const {data} = useQuery(GET_EMERGENCY, {
+    const { data } = useQuery(GET_EMERGENCY, {
         onCompleted: (data) => {
             const emerg = data.findEmerAlert;
             if (emerg.isAccepted) {
-                deleteEmergencyAlert({variables: {id: emerg._id}});
+                deleteEmergencyAlert({ variables: { id: emerg._id } });
             }
         },
         onError: (error) => {

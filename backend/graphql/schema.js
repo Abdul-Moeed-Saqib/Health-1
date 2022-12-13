@@ -37,7 +37,7 @@ const EmergencyAlertType = new GraphQLObjectType({
   name: "EmergencyAlert",
   fields: () => ({
     _id: { type: GraphQLString },
-    id: { type: GraphQLString},
+    id: { type: GraphQLString },
     content: { type: GraphQLString },
     isAccepted: { type: GraphQLBoolean },
     patient: {
@@ -89,7 +89,7 @@ const RootQuery = new GraphQLObjectType({
       type: EmergencyAlertType,
       resolve: async (parent, args, context) => {
         const user = await requireAuth(context);
-        return EmergencyAlert.findOne({ patient: user._id});
+        return EmergencyAlert.findOne({ patient: user._id });
       }
     },
     emerAlert: {
@@ -156,7 +156,7 @@ const mutation = new GraphQLObjectType({
       resolve: async function (parent, args, context) {
         try {
           const user = await requireAuth(context);
-          const exists = await EmergencyAlert.findOne({ patient: user._id});
+          const exists = await EmergencyAlert.findOne({ patient: user._id });
           if (exists) {
             throw Error('You already send an emergency. Please wait.');
           }
