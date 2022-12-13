@@ -3,7 +3,7 @@ import { gql } from "@apollo/client";
 const GET_PATIENTS = gql` 
 query getPaitents{
   patients{
-    id
+    _id
     email
     firstName
     lastName

@@ -71,7 +71,7 @@ export default function PatientList() {
                 </TableHead>
                 <TableBody>
                     {data && data.patients.length > 0 && data.patients.map((patient) => (
-                        <StyledTableRow key={patient.id}>
+                        <StyledTableRow key={patient._id}>
                             <StyledTableCell component="th" scope="row">
                                 {`${patient.firstName} ${patient.lastName}`}
                             </StyledTableCell>
@@ -82,7 +82,7 @@ export default function PatientList() {
                             <StyledTableCell align="left">
                                 <Box sx={{ d: 'flex' }}>
                                     <Button variant="contained" sx={{ mr: '1rem' }}
-                                        onClick={() => toAddVitalSignPage(patient.id)}
+                                        onClick={() => toAddVitalSignPage(patient._id)}
                                     >Add Vital Sign</Button>
 
                                 </Box>

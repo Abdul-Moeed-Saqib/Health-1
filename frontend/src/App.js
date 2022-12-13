@@ -5,7 +5,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.min.css';
 import { ToastContainer } from 'react-toastify'
 import { useAuthContext } from './hooks/useAuthContext';
-import DailyInfo from './pages/patientPages/DailyInformation';
+
 
 export default function App() {
   const { user } = useAuthContext();
@@ -15,7 +15,6 @@ export default function App() {
       <Routes>
         <Route path='/' element={user ? <Navigate to='/home' /> : <Auth />} />
         <Route path='/home/*' element={<Home />} />
-        <Route path='/checkList' element={<CheckList />} />
       </Routes>
       <ToastContainer />
     </Fragment>
