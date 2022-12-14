@@ -76,7 +76,6 @@ export default function MemoryGame() {
       <div className={styles.MemoryGame}>
         <h1>Memory Match</h1>
         <div className={styles.button} onClick={shuffleCards}>New Game</div>
-        <div className={styles.button}>GO BACK</div>
         <div className={styles["container-card"]}>
           <div className={styles["card-grid"]}>
             {cards.map((card) => (
