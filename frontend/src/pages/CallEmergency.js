@@ -1,3 +1,4 @@
+import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -47,6 +48,7 @@ const CallEmergency = () => {
 
     return ( 
         <Box component="form" sx={{ display: 'flex', flexDirection: 'column' }} onSubmit={handleSubmit}>
+            <Typography variant='h4' sx={{ mb: '1rem', textAlign: 'center' }}>SEND EMERGENCY</Typography>
                 <TextField
                     type='text'
                     required

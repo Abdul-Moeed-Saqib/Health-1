@@ -7,6 +7,7 @@ const EmerAlertSchema = new Schema({
   },
   isAccepted: {
     type: Boolean,
+    default: false
   },
   patient: {
     type: Schema.Types.ObjectId,
