@@ -53,8 +53,11 @@ export default function PatientHome() {
             patient home
             <br />
             <Link to="/home/emergency">Send Emergency</Link>
-            <h3>Motivational Tip</h3>
-            <h5>{description}</h5>
+            
+            <div className='tip-style'>
+                <h3>Motivational Tip</h3>
+                <h5>{description}</h5>
+            </div>
         </Fragment>
     )
 }

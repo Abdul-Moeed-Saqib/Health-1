@@ -675,3 +675,27 @@ i {
   border-radius: 4px;
   margin: 20px 0;
 }
+
+.tip-style {
+  position: relative;
+  bottom: 10px;
+  left: 1000px;
+  width: 500px;
+  height: 200px;
+  text-align: center;
+  background-color: #17a2b8;
+  color: #fcfbfc;
+  border-radius: 20px;
+  box-shadow: 3px 3px 3px #333;
+}
+
+.tip-style h3 {
+  font-size: 30px;
+  line-height: 100px;
+}
+
+
+.tip-style h5 {
+  font-size: 18px;
+}
+
