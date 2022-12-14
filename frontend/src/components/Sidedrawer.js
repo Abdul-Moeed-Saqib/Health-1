@@ -116,7 +116,7 @@ export default function SideDrawer({ open, handleDrawerClose }) {
                 </ListItemButton>
 
                 {/* Motivational Tips */}
-                <ListItemButton component={NavLink} to={`/home/patients`} >
+                <ListItemButton component={NavLink} to={`/home/motivationalTips`} >
                     <ListItemIcon>
                         < TipsAndUpdatesIcon />
                     </ListItemIcon>

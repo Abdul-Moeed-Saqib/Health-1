@@ -22,12 +22,13 @@ const {
 const MotivationalTipType = new GraphQLObjectType({
   name: "MotivationalTip",
   fields: () => ({
+    _id: { type: GraphQLString },
     nurseId: { type: GraphQLString },
     description: { type: GraphQLString },
     nurse: {
       type: UserType,
       resolve: async (parent, args) => {
-        return await MotivationalTip.findById(parent.id);
+        return await MotivationalTip.findById(parent.nurse);
       },
     },
   }),
@@ -73,7 +74,7 @@ const RootQuery = new GraphQLObjectType({
     motiavtionalTip: {
       type: MotivationalTipType,
       resolve: async (parent, args) => {
-        const rand = Math.floor(Math.random() * MotivationalTip.count());
+        const rand = Math.floor(Math.random() * await MotivationalTip.count());
         const motiavTip = await MotivationalTip.findOne().skip(rand);
         return motiavTip;
       },
@@ -120,17 +121,17 @@ const mutation = new GraphQLObjectType({
   fields: {
     ...userMutation,
     //MotiavtionalTip mutation
-    addMotiavtionalTip: {
+    addMotivationalTip: {
       type: MotivationalTipType,
       args: {
         description: { type: GraphQLNonNull(GraphQLString) },
-        nurseId: { type: GraphQLNonNull(GraphQLString) },
       },
-      resolve: async function (parent, args) {
+      resolve: async function (parent, args, context) {
         try {
+          const user = await requireAuth(context);
           const motiavtional = await MotivationalTip.create({
             description: args.description,
-            nurse: args.nurseId,
+            nurse: user._id,
           });
           return motiavtional;
         } catch (error) {
@@ -177,6 +178,7 @@ const mutation = new GraphQLObjectType({
         isAccepted: { type: GraphQLNonNull(GraphQLBoolean) }
       },
       resolve: async function (parent, args) {
+        await requireAuth(context);
         return EmergencyAlert.findByIdAndUpdate(args.id, {
           isAccepted: args.isAccepted
         }, { new: true });

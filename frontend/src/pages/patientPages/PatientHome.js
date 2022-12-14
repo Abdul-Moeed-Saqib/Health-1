@@ -1,13 +1,16 @@
 import { Box } from '@mui/material'
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { Link } from "react-router-dom";
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_EMERGENCY } from '../../queries/emergencyQueries';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { DELETE_EMERG } from '../../mutations/emergencyMutations';
 import { toastErrorBot } from '../../utils/utils'
+import { GET_MOTIVATIONALTIP } from '../../queries/motivationalTipsQueries';
 
 export default function PatientHome() {
+
+    const [description, setDescription] = useState();
 
     const [deleteEmergencyAlert] = useMutation(DELETE_EMERG, {
         onCompleted: (data) => {
@@ -33,12 +36,25 @@ export default function PatientHome() {
         fetchPolicy: 'network-only'
     })
 
+    const { loading } = useQuery(GET_MOTIVATIONALTIP, {
+        onCompleted: (data) => {
+            setDescription(data.motiavtionalTip.description);
+        },
+        onError: (error) => {
+            alert(error.message);
+            console.log(error.networkError);
+        },
+        fetchPolicy: 'network-only'
+    })
+
 
     return (
         <Fragment>
             patient home
             <br />
             <Link to="/home/emergency">Send Emergency</Link>
+            <h3>Motivational Tip</h3>
+            <h5>{description}</h5>
         </Fragment>
     )
 }
