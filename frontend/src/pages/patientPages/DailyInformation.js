@@ -75,7 +75,7 @@ export default function DailyInformation() {
         >
             <TextField
                 required
-                label="Body Temperature"
+                label="Body Temperature (36 - 40)"
                 type="number"
                 sx={{ minWidth: "400px", margin: "5px 0" }}
                 value={dailyInfo.bodyTem}
@@ -85,7 +85,7 @@ export default function DailyInformation() {
             <TextField
                 required
                 type="number"
-                label="Heart Rate"
+                label="Heart Rate (60 - 100)"
                 sx={{ minWidth: "400px", margin: "5px 0" }}
                 value={dailyInfo.heartRate}
                 name="heartRate"
@@ -93,7 +93,7 @@ export default function DailyInformation() {
             />
             <TextField
                 required
-                label="Blood Pressure"
+                label="Blood Pressure (80 - 170)"
                 type="number"
                 sx={{ minWidth: "400px", margin: "5px 0" }}
                 value={dailyInfo.bloodPre}
@@ -102,7 +102,7 @@ export default function DailyInformation() {
             />
             <TextField
                 required
-                label="Respiratory Rate"
+                label="Respiratory Rate (12 - 20)"
                 type="number"
                 sx={{ minWidth: "400px", margin: "5px 0" }}
                 value={dailyInfo.respiratoryRate}
