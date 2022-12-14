@@ -14,7 +14,7 @@ export default function App() {
     <Fragment>
       <Routes>
         <Route path='/' element={user ? <Navigate to='/home' /> : <Auth />} />
-        <Route path='/home/*' element={<Home />} />
+        <Route path='/home/*' element={user ? <Home /> : <Auth />} />
       </Routes>
       <ToastContainer />
     </Fragment>

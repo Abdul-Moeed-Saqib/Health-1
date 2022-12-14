@@ -92,11 +92,11 @@ export default function Home() {
                 <DrawerHeader />
                 <Box className='container-home' sx={{ width: '100%', minHeight: '91vh', p: '2rem 4rem' }}>
                     <Routes>
-                        <Route path='/emergency' element={user ? <CallEmergency /> : <Auth />} />
+                        <Route path='/emergency' element={user.role === "patient" ? <CallEmergency /> : <Navigate to="/" />} />
                         <Route path="/memoryGame" element={<MemoryGame />} />
                         <Route path='/patients' element={<PatientList />} />
                         <Route path='/dailyInfo' element={<DailyInformation />} />
-                        <Route path='*' element={user ? user.role === 'nurse' ? <NurseHome /> : <PatientHome /> : <Auth />} />
+                        <Route path='*' element={user.role === 'nurse' ? <NurseHome /> : <PatientHome />} />
                     </Routes>
                 </Box>
             </Main>
