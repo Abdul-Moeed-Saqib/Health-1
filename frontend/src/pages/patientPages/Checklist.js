@@ -1,115 +1,78 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import React, { useState } from "react";
+import "./checkList.css";
+import { toast } from "react-toastify";
+export default function Checklist() {
+  const symptoms = [
+    "Fever or chills",
+    "Cough",
+    "Fatigue",
+    "Muscle or body aches",
+    "Headache",
+    "New loss of taste or smell",
+    "Sore throat",
+    "Congestion or runny nose",
+    "Diarrhea",
+    "Nausea or vomiting",
+  ];
+  const [checked, setChecked] = useState([]);
 
-const steps = ['1', '2', '3', '4', '5', '6' , '7', '8', '9', '10'];
-
-export default function CheckList() {
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set());
-
-  const isStepOptional = (step) => {
-    return step === 1;
-  };
-
-  const isStepSkipped = (step) => {
-    return skipped.has(step);
-  };
-
-  const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
+  // Add/Remove checked item from list
+  const handleCheck = (event) => {
+    var updatedList = [...checked];
+    if (event.target.checked) {
+      updatedList = [...checked, event.target.value];
+    } else {
+      updatedList.splice(checked.indexOf(event.target.value), 1);
     }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+    setChecked(updatedList);
   };
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+  const checkedsym = checked.length
+    ? checked.reduce((total, sym) => {
+        return total + "      ,     " + sym;
+      })
+    : "";
 
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.");
+  var isChecked = (sym) =>
+    checked.includes(sym) ? "checked-item" : "not-checked-item";
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(checked.length);
+    if (checked.length >= 5) {
+      toast.warning("You need to go to the hospital!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
+    if (checked.length < 5) {
+      toast.warning("You need to stay at home!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          if (isStepOptional(index)) {
-            labelProps.optional = (
-              <Typography variant="caption">Optional</Typography>
-            );
-          }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      {activeStep === steps.length ? (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
-          </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Box sx={{ flex: '1 1 auto' }} />
-            <Button onClick={handleReset}>Reset</Button>
-          </Box>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
-            <Box sx={{ flex: '1 1 auto' }} />
-            {isStepOptional(activeStep) && (
-              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                Skip
-              </Button>
-            )}
-
-            <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button>
-          </Box>
-        </React.Fragment>
-      )}
-    </Box>
+    <div className="container">
+      <div className="checkList">
+        <div className="title">COVID-19 symptoms</div>
+        <form onSubmit={handleSubmit}>
+          <div className="list-container">
+            {symptoms.map((item, index) => (
+              <div key={index}>
+                <input value={item} type="checkbox" onChange={handleCheck} />
+                <span className={isChecked(item)}>{item}</span>
+              </div>
+            ))}
+          </div>
+          <button className="checkButton">Submit</button>
+        </form>
+      </div>
+      <div>
+        <h3>Selected symptoms:</h3>
+        <div className="Selected">
+          <p>{checkedsym}</p>
+        </div>
+      </div>
+    </div>
   );
 }

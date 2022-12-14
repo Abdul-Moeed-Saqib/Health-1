@@ -1,0 +1,55 @@
+.container {
+    font-family: sans-serif;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    height: 100vh;
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    background-color: rgb(250, 247, 243);
+    max-width: 50%;
+    margin: 0 500px;
+  }
+  .title {
+    font-size: 30px;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  .list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 20px;
+  }
+  .checked-item,
+  .not-checked-item {
+    margin-left: 10px;
+  }
+  .checked-item {
+    text-decoration: line-through;
+  }
+  .selectedSymptoms{
+    display: block;
+  }
+
+  .checkButton {
+    background-color: #e7e7e7;
+    border: none;
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 20px 100px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+
+
+
+
