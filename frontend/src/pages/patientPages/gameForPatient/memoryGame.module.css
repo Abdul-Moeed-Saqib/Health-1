@@ -19,9 +19,13 @@
   color: #fff;
 }
 
+.container-card {
+  display: flex;
+  justify-content: center;
+
+}
 
 .card-grid {
-  margin: 0 380px;
   width: 50%;
   margin-top: 40px;
   display: grid;

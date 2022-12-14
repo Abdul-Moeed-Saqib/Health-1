@@ -77,18 +77,19 @@ export default function MemoryGame() {
         <h1>Memory Match</h1>
         <div className={styles.button} onClick={shuffleCards}>New Game</div>
         <div className={styles.button}>GO BACK</div>
-        <div className={styles["card-grid"]}>
-          {cards.map((card) => (
-            <SingleCard
-              key={card.id}
-              card={card}
-              handleChoice={handleChoice}
-              flipped={card === choiceOne || card === choiceTwo || card.matched}
-              disabled={disabled}
-            />
-          ))}
+        <div className={styles["container-card"]}>
+          <div className={styles["card-grid"]}>
+            {cards.map((card) => (
+              <SingleCard
+                key={card.id}
+                card={card}
+                handleChoice={handleChoice}
+                flipped={card === choiceOne || card === choiceTwo || card.matched}
+                disabled={disabled}
+              />
+            ))}
+          </div>
         </div>
-
         <p>Turns: {turns}</p>
       </div>
     </div>
