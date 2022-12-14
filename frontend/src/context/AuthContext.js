@@ -21,7 +21,7 @@ export const AuthContextProvider = ({ children }) => {
     // control auth tab to switch between login and signup
     const [tabValue, setTabValue] = useState("1");
 
-    const [acceptedState, setAcceptState] = useState(true)
+    const [acceptedState, setAcceptState] = useState(false)
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));

@@ -677,9 +677,7 @@ i {
 }
 
 .tip-style {
-  position: relative;
-  bottom: 10px;
-  left: 1000px;
+  margin-top: 5rem;
   width: 500px;
   height: 200px;
   text-align: center;
@@ -694,8 +692,6 @@ i {
   line-height: 100px;
 }
 
-
 .tip-style h5 {
   font-size: 18px;
 }
-

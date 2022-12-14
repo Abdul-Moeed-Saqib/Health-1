@@ -24,6 +24,7 @@ const REGISTER_USER = gql`
       firstName
       role
       token
+      _id
     }
   }
 `;
@@ -34,16 +35,10 @@ const LOGIN_USER = gql`
             firstName
             role
             token
+            _id
         }
     }
 `
 
-const REQUIRE_AUTH = gql`
-mutation RequireAuth($token: String!) {
-  requireAuth(token: $token) {
-    _id
-  }
-}
-`
 
-export { REGISTER_USER, LOGIN_USER, REQUIRE_AUTH };
+export { REGISTER_USER, LOGIN_USER };

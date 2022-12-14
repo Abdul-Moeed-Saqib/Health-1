@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import React, { Fragment, useState } from 'react'
 import { Link } from "react-router-dom";
 import { useQuery, useMutation } from '@apollo/client';
@@ -49,15 +49,15 @@ export default function PatientHome() {
 
 
     return (
-        <Fragment>
-            patient home
-            <br />
-            <Link to="/home/emergency">Send Emergency</Link>
-            
+        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+            <Typography variant='h4'>Patient Home</Typography>
+
+            <Link style={{ fontSize: '1.4rem' }} to="/home/emergency">Send Emergency</Link>
+
             <div className='tip-style'>
                 <h3>Motivational Tip</h3>
                 <h5>{description}</h5>
             </div>
-        </Fragment>
+        </Box>
     )
 }

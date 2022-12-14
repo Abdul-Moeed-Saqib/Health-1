@@ -12,11 +12,11 @@ import { styled, useTheme } from '@mui/material/styles';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import MemoryGame from '../pages/patientPages/gameForPatient/MemoryGame';
 import CallEmergency from './CallEmergency'
-import Auth from './Auth';
 import '../resource/css/home.css'
 import PatientList from './PatientList';
 import DailyInformation from './patientPages/DailyInformation';
 import MotivationalTips from './MotivationalTips';
+import Checklist from './patientPages/Checklist';
 
 const drawerWidth = 240;
 
@@ -93,12 +93,16 @@ export default function Home() {
                 <DrawerHeader />
                 <Box className='container-home' sx={{ width: '100%', minHeight: '91vh', p: '2rem 4rem' }}>
                     <Routes>
-                        <Route path='/emergency' element={user.role === "patient" ? <CallEmergency /> : <Navigate to="/" />} />
-                        <Route path="/memoryGame" element={<MemoryGame />} />
-                        <Route path='/motivationalTips' element={user.role === "nurse" ? <MotivationalTips /> : <Navigate to="/" />} />
-                        <Route path='/patients' element={<PatientList />} />
-                        <Route path='/dailyInfo' element={<DailyInformation />} />
                         <Route path='*' element={user.role === 'nurse' ? <NurseHome /> : <PatientHome />} />
+                        <Route path='/dailyInfo' element={<DailyInformation />} />
+                        {/* nurse routes */}
+                        <Route path='/motivationalTips' element={user.role === "nurse" ? <MotivationalTips /> : <Navigate to="/" />} />
+                        <Route path='/patients' element={user.role === "nurse" ? <PatientList /> : <Navigate to="/" />} />
+                        <Route path='/dailyInfo' element={<DailyInformation />} />
+                        {/* patient routes */}
+                        <Route path="/memoryGame" element={user.role === "patient" ? <MemoryGame /> : <Navigate to="/" />} />
+                        <Route path='/emergency' element={user.role === "patient" ? <CallEmergency /> : <Navigate to="/" />} />
+                        <Route path='/checklist' element={<Checklist />} />
                     </Routes>
                 </Box>
             </Main>

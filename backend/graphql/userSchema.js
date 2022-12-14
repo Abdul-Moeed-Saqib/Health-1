@@ -19,7 +19,7 @@ const createToken = (id) => {
 const UserType = new GraphQLObjectType({
     name: "User",
     fields: () => ({
-        _id: { type: GraphQLString },
+        _id: { type: GraphQLID },
         email: { type: GraphQLString },
         password: { type: GraphQLString },
         firstName: { type: GraphQLString },
@@ -34,6 +34,7 @@ const UserType = new GraphQLObjectType({
 const LoggedInType = new GraphQLObjectType({
     name: "LoggedIn",
     fields: () => ({
+        _id: { type: GraphQLString },
         firstName: { type: GraphQLString },
         role: { type: GraphQLString },
         token: { type: GraphQLString }
@@ -178,7 +179,8 @@ const register = {
             const payload = {
                 firstName: newUser.firstName,
                 role: newUser.role,
-                token
+                token,
+                _id: newUser._id
             }
 
             return payload;
@@ -217,7 +219,8 @@ const login = {
         const payload = {
             firstName: user.firstName,
             role: user.role,
-            token
+            token,
+            _id: user._id
         }
 
         return payload;
