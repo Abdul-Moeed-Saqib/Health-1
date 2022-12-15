@@ -58,10 +58,11 @@ const VitalSignType = new GraphQLObjectType({
     heartRate: { type: GraphQLFloat },
     bloodPre: { type: GraphQLFloat },
     respiratoryRate: { type: GraphQLFloat },
+    createdAt: { type: GraphQLString},
     patient: {
       type: UserType,
       resolve: async (parent, args) => {
-        return await User.findById(parent.id);
+        return await User.findById(parent.patient);
       },
     },
   }),
@@ -102,8 +103,9 @@ const RootQuery = new GraphQLObjectType({
     },
     vitalSigns: {
       type: new GraphQLList(VitalSignType),
+      args: { id: { type: GraphQLString } },
       resolve: async (parent, args) => {
-        return VitalSign.find();
+        return VitalSign.find({ patient: args.id});
       },
     },
     vitalSign: {
@@ -177,7 +179,7 @@ const mutation = new GraphQLObjectType({
         id: { type: GraphQLNonNull(GraphQLString) },
         isAccepted: { type: GraphQLNonNull(GraphQLBoolean) }
       },
-      resolve: async function (parent, args) {
+      resolve: async function (parent, args, context) {
         await requireAuth(context);
         return EmergencyAlert.findByIdAndUpdate(args.id, {
           isAccepted: args.isAccepted

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useQuery } from "@apollo/client";
 import { GET_PATIENTS } from '../queries/patientQueries'
 import { toastErrorBot } from '../utils/utils'
@@ -55,6 +55,9 @@ export default function PatientList() {
         navigate('/home/dailyInfo', { state: { patientId } })
     }
 
+    const viewVitalSigns = (patientId) => {
+        navigate('/home/vitalSigns', { state: {patientId}});
+    }
 
     return (
         <TableContainer component={Paper}>
@@ -67,6 +70,7 @@ export default function PatientList() {
                         <StyledTableCell align="left">Address</StyledTableCell>
                         <StyledTableCell align="left">Phone</StyledTableCell>
                         <StyledTableCell align="left">Operation</StyledTableCell>
+                        <StyledTableCell align="left">Vital Signs</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -84,6 +88,14 @@ export default function PatientList() {
                                     <Button variant="contained" sx={{ mr: '1rem' }}
                                         onClick={() => toAddVitalSignPage(patient._id)}
                                     >Add Vital Sign</Button>
+
+                                </Box>
+                            </StyledTableCell>
+                            <StyledTableCell align="left">
+                                <Box sx={{ d: 'flex' }}>
+                                    <Button variant="contained" sx={{ mr: '1rem' }}
+                                        onClick={() => viewVitalSigns(patient._id)}
+                                    >View Signs</Button>
 
                                 </Box>
                             </StyledTableCell>

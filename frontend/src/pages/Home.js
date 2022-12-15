@@ -17,6 +17,7 @@ import PatientList from './PatientList';
 import DailyInformation from './patientPages/DailyInformation';
 import MotivationalTips from './MotivationalTips';
 import Checklist from './patientPages/Checklist';
+import VitalSigns from './patientPages/VitalSigns';
 
 const drawerWidth = 240;
 
@@ -98,6 +99,7 @@ export default function Home() {
                         {/* nurse routes */}
                         <Route path='/motivationalTips' element={user.role === "nurse" ? <MotivationalTips /> : <Navigate to="/" />} />
                         <Route path='/patients' element={user.role === "nurse" ? <PatientList /> : <Navigate to="/" />} />
+                        <Route path='/vitalSigns' element={user.role === "nurse" ? <VitalSigns /> : <Navigate to="/" />} />
                         <Route path='/dailyInfo' element={<DailyInformation />} />
                         {/* patient routes */}
                         <Route path="/memoryGame" element={user.role === "patient" ? <MemoryGame /> : <Navigate to="/" />} />
