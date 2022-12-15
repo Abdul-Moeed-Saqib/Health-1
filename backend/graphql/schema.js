@@ -59,6 +59,7 @@ const VitalSignType = new GraphQLObjectType({
     bloodPre: { type: GraphQLFloat },
     respiratoryRate: { type: GraphQLFloat },
     createdAt: { type: GraphQLString },
+    diagnosis: { type: GraphQLString },
     patient: {
       type: UserType,
       resolve: async (parent, args) => {
