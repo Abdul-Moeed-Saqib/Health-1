@@ -10,6 +10,10 @@ import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import HomeIcon from '@mui/icons-material/Home';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import Collapse from '@mui/material/Collapse';
+import HistoryIcon from '@mui/icons-material/History';
 
 
 export default function PatientMenu() {
@@ -17,6 +21,12 @@ export default function PatientMenu() {
     const patientId = user?._id;
 
     const navigate = useNavigate()
+
+    const [expandV, setExpandV] = useState(true)
+    const expandVitalSigns = () => {
+        setExpandV(!expandV)
+    }
+
 
     return (
         <List
@@ -32,15 +42,38 @@ export default function PatientMenu() {
                 <ListItemText primary="Home" />
             </ListItemButton>
 
-            {/* Emergency */}
-            <ListItemButton onClick={() => {
-                navigate('/home/dailyInfo', { state: { patientId } })
-            }} >
+            {/* VitalSigns */}
+
+            <ListItemButton onClick={expandVitalSigns}>
                 <ListItemIcon>
-                    <VaccinesIcon />
+                    <AddAlertIcon />
                 </ListItemIcon>
-                <ListItemText primary="Daily Report" />
+                <ListItemText primary="Vital Signs" />
+                {expandV ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
+            <Collapse in={expandV} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                    <ListItemButton sx={{ pl: 4 }} onClick={() => {
+                        navigate('/home/dailyInfo', { state: { patientId } })
+                    }} >
+                        <ListItemIcon>
+                            <VaccinesIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Daily Report" />
+                    </ListItemButton>
+
+                    <ListItemButton sx={{ pl: 4 }} onClick={() => {
+                        navigate('/home/vitalSigns', { state: { patientId } })
+                    }}>
+                        <ListItemIcon>
+                            <HistoryIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="History" />
+                    </ListItemButton>
+                </List>
+            </Collapse>
+
+
 
             {/* Emergency */}
             <ListItemButton component={NavLink} to={`/home/emergency`}>
