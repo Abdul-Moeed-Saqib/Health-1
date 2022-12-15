@@ -23,6 +23,24 @@ mutation AddVitalSign(
     }
 `
 
+const UPDATE_DIAGNOSIS = gql`
+mutation UpdateDiagnosis(
+    $id: String!
+    $diagnosis: String!
+){
+    updateDiagnosis(
+        id:$id
+        diagnosis:$diagnosis
+    ){
+        bodyTem
+        heartRate,
+        bloodPre,
+        respiratoryRate
+        diagnosis
+    }
+}
+`
+
 const DELETE_VITAL = gql`
 mutation DeleteVitalSign(
     $id: String!
@@ -35,4 +53,4 @@ mutation DeleteVitalSign(
 }
 `
 
-export { ADD_VITAL, DELETE_VITAL};
+export { ADD_VITAL, DELETE_VITAL, UPDATE_DIAGNOSIS };
