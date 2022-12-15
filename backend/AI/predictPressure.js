@@ -76,6 +76,7 @@ exports.trainAndPredict = async function (bloodPressure) {
 
         const results = model.predict(testingData);
         let dataToSent = await results.array()
+        console.log(dataToSent);
         return { row: dataToSent[0] }
     }
     return await run()

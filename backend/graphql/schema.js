@@ -125,13 +125,25 @@ const RootQuery = new GraphQLObjectType({
       },
     },
     predictBloodPressure: {
-      type: predictionType,
+      type: GraphQLString,
       args: { bloodPre: { type: GraphQLNonNull(GraphQLFloat) } },
       resolve: async (parent, args) => {
         const { bloodPre } = args
-        const prediction = await trainAndPredict(bloodPre)
-        console.log(prediction);
-        return prediction
+        const prediction = await trainAndPredict(bloodPre);
+
+        const high = prediction.row[0];
+        const normal = prediction.row[1];
+        const low = prediction.row[2];
+        
+        if (high > normal) {
+          return "high blood pressure";
+        }
+        else if (low < normal) {
+          return "low blood pressure";
+        }
+        else {
+          return "normal";
+        }
       }
     }
   },
