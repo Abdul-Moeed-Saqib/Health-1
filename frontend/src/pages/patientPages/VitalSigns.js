@@ -105,6 +105,9 @@ const VitalSigns = () => {
         setSelectVital(vitalId)
     }
 
+    if (prediction) {
+        console.log('prediction', prediction);
+    }
 
     return (
         <Fragment>
@@ -136,7 +139,7 @@ const VitalSigns = () => {
                                                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                                     <Typography variant="body1">Awaiting Review</Typography>
                                                     {
-                                                        prediction?.predictBloodPressure ? prediction?.predictBloodPressure : <Button variant="outlined" onClick={() => { getPrediction({ variables: { bloodPre: parseFloat(vitalSign.bloodPre) } }) }}>Get prediction from AI</Button>
+                                                        prediction?.predictBloodPressure ? 'got it' : <Button variant="outlined" onClick={() => { getPrediction({ variables: { bloodPre: parseFloat(vitalSign.bloodPre) } }) }}>Get prediction from AI</Button>
                                                     }
                                                 </Box>
                                     }</StyledTableCell>

@@ -129,7 +129,9 @@ const RootQuery = new GraphQLObjectType({
       args: { bloodPre: { type: GraphQLNonNull(GraphQLFloat) } },
       resolve: async (parent, args) => {
         const { bloodPre } = args
-        return await trainAndPredict(bloodPre)
+        const prediction = await trainAndPredict(bloodPre)
+        console.log(prediction);
+        return prediction
       }
     }
   },
