@@ -7,6 +7,7 @@ const GET_VITALSIGNS = gql`
       heartRate
       bloodPre
       respiratoryRate
+      createdAt
     }
   }
 `;
