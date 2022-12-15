@@ -143,7 +143,7 @@ const RootQuery = new GraphQLObjectType({
             row: "low blood pressure"
           };
         }
-        else {
+        else if (normal > high && normal < low) {
           return {
             row: "normal"
           };
