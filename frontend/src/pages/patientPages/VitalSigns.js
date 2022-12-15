@@ -139,7 +139,26 @@ const VitalSigns = () => {
                                                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                                     <Typography variant="body1">Awaiting Review</Typography>
                                                     {
-                                                        prediction?.predictBloodPressure ? 'got it' : <Button variant="outlined" onClick={() => { getPrediction({ variables: { bloodPre: parseFloat(vitalSign.bloodPre) } }) }}>Get prediction from AI</Button>
+                                                        prediction?.predictBloodPressure ?
+                                                            selectedVital === vitalSign.id ?
+                                                                prediction.predictBloodPressure
+                                                                :
+                                                                <Button variant="outlined"
+                                                                    onClick={() => {
+                                                                        setSelectVital(vitalSign.id)
+                                                                        getPrediction({ variables: { bloodPre: parseFloat(vitalSign.bloodPre) } })
+                                                                    }}
+
+                                                                >Get prediction from AI
+                                                                </Button>
+                                                            :
+                                                            <Button variant="outlined"
+                                                                onClick={() => {
+                                                                    setSelectVital(vitalSign.id)
+                                                                    getPrediction({ variables: { bloodPre: parseFloat(vitalSign.bloodPre) } })
+                                                                }}
+                                                            >Get prediction from AI
+                                                            </Button>
                                                     }
                                                 </Box>
                                     }</StyledTableCell>
