@@ -136,7 +136,7 @@ const VitalSigns = () => {
                                                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                                     <Typography variant="body1">Awaiting Review</Typography>
                                                     {
-                                                        prediction?.predictBloodPressure ? prediction?.predictBloodPressure : <Button variant="outlined" onClick={() => { getPrediction({ variables: { bloodPre: vitalSign.bloodPre } }) }}>Get prediction from AI</Button>
+                                                        prediction?.predictBloodPressure ? prediction?.predictBloodPressure : <Button variant="outlined" onClick={() => { getPrediction({ variables: { bloodPre: parseFloat(vitalSign.bloodPre) } }) }}>Get prediction from AI</Button>
                                                     }
                                                 </Box>
                                     }</StyledTableCell>

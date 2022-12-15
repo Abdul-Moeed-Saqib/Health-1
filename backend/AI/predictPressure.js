@@ -3,16 +3,13 @@ require('@tensorflow/tfjs-node');
 const VitalSign = require("../models/vitalSign");
 
 exports.trainAndPredict = async function (bloodPressure) {
-
-
-
     // get all vital Signs where diagnosis is in one of the three results for training model
-    const vitalSigns = await VitalSign.find({ bloodPressure: { $in: ["high blood pressure", "normal", "low blood pressure"], $options: 'i' } })
-    console.log(vitalSigns);
+    const vitalSigns = await VitalSign.find({ diagnosis: { $in: ["high blood pressure", "normal", "low blood pressure"] } })
+
+    console.log('vital', vitalSigns);
     // define training Data
     const trainingData = tf.tensor2d(vitalSigns.map(item => [
-        item.bodyTem, item.heartRate, item.Pre,
-        item.respiratoryRate
+        item.bloodPre,
     ]))
 
     //tensor of output for training data
@@ -81,11 +78,8 @@ exports.trainAndPredict = async function (bloodPressure) {
         var dataToSent
         results.array().then(array => {
             console.log(array[0][0])
-            var resultForData1 = array[0];
-            var resultForData2 = array[1];
-            var resultForData3 = array[2];
-            dataToSent = { row1: resultForData1, row2: resultForData2, row3: resultForData3 }
-
+            var resultForData = array[0];
+            dataToSent = { row: resultForData }
         })
         return dataToSent
     }

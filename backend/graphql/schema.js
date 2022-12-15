@@ -73,9 +73,7 @@ const VitalSignType = new GraphQLObjectType({
 const predictionType = new GraphQLObjectType({
   name: "predictBloodPressure",
   fields: () => ({
-    row1: { type: GraphQLFloat },
-    row2: { type: GraphQLFloat },
-    row3: { type: GraphQLFloat }
+    row: { type: GraphQLList(GraphQLFloat) }
   })
 })
 
@@ -130,7 +128,8 @@ const RootQuery = new GraphQLObjectType({
       type: predictionType,
       args: { bloodPre: { type: GraphQLNonNull(GraphQLFloat) } },
       resolve: async (parent, args) => {
-        return await trainAndPredict(args.bloodPre)
+        const { bloodPre } = args
+        return await trainAndPredict(bloodPre)
       }
     }
   },
