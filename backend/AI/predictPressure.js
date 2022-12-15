@@ -1,17 +1,8 @@
-
 const tf = require('@tensorflow/tfjs');
 require('@tensorflow/tfjs-node');
+const VitalSign = require("../models/vitalSign");
 
-
-// instead getting from data.json file we fetch from our database
-const vitalSigns = require('../../vitalSigns.json');
-
-var lossValue;
-//
-exports.trainAndPredict = function (req, res) {
-
-    // we get test data from user input
-    const { vitalsSigns: vitalData, epochs, learningRate } = req.body
+exports.trainAndPredict = function (bloodPressure) {
 
     // define training Data
     const trainingData = tf.tensor2d(vitalSigns.map(item => [
@@ -19,19 +10,22 @@ exports.trainAndPredict = function (req, res) {
         item.respiratoryRate
     ]))
 
+    // get all vital Signs where diagnosis is in one of the three results for training model
+    const vitalSigns = VitalSign.find({ bloodPressure: { $in: ["high blood pressure", "normal", "low blood pressure"], $options: 'i' } })
+
     //tensor of output for training data
     //the values for species will be:
-    // good ?:       1,0,0
-    // stay home ?:    0,1,0
-    // see a doctor ?:   0,0,1
+    // high blood pressure :  1,0,0
+    // normal :               0,1,0
+    // low blood pressure :   0,0,1
     const outputData = tf.tensor2d(vitalSigns.map(item => [
-        item.diagnostic_result === "good" ? 1 : 0,
-        item.diagnostic_result === "stay home" ? 1 : 0,
-        item.diagnostic_result === "see a doctor" ? 1 : 0
+        item.diagnosis === "high blood pressure" ? 1 : 0,
+        item.diagnosis === "normal" ? 1 : 0,
+        item.diagnosis === "low blood pressure" ? 1 : 0
     ]))
 
     // convert test vitals signs to test data in tensorflow format
-    const testd = [Number(irisData.sepalLength), Number(irisData.sepalWidth), Number(irisData.petalLength), Number(irisData.petalWidth)];
+    const testd = [Number(bloodPressure)];
 
     const testingData = tf.tensor2d([testd]);
 
@@ -40,15 +34,15 @@ exports.trainAndPredict = function (req, res) {
     const model = tf.sequential()
     //add the first layer
     model.add(tf.layers.dense({
-        inputShape: [4], // four input neurons
+        inputShape: [1], // four input neurons
         activation: "sigmoid",
-        units: 5, //dimension of output space (first hidden layer)
+        units: 2, //dimension of output space (first hidden layer)
     }))
     //add the hidden layer
     model.add(tf.layers.dense({
-        inputShape: [5], //dimension of hidden layer
+        inputShape: [2], //dimension of hidden layer
         activation: "sigmoid",
-        units: 3, //dimension of final output (setosa, virginica, versicolor)
+        units: 3, //dimension of final output 
     }))
     //add output layer
     model.add(tf.layers.dense({

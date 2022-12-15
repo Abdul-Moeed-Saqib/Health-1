@@ -93,7 +93,7 @@ export default function DailyInformation() {
             />
             <TextField
                 required
-                label="Blood Pressure (80 - 170)"
+                label="Blood Pressure (systolic) (80 - 170)"
                 type="number"
                 sx={{ minWidth: "400px", margin: "5px 0" }}
                 value={dailyInfo.bloodPre}

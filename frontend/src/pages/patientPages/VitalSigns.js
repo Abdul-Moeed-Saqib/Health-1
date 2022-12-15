@@ -105,10 +105,10 @@ const VitalSigns = () => {
                         <TableRow>
                             <StyledTableCell align="left">Body Temperature</StyledTableCell>
                             <StyledTableCell align="left">Heart Rate</StyledTableCell>
-                            <StyledTableCell align="left">Blood Pressure</StyledTableCell>
+                            <StyledTableCell align="left">Blood Pressure (systolic)</StyledTableCell>
                             <StyledTableCell align="left">Respiratory Rate</StyledTableCell>
                             <StyledTableCell align="left">Added</StyledTableCell>
-                            <StyledTableCell align="left">Diagnosis</StyledTableCell>
+                            <StyledTableCell align="center">Diagnosis</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -119,7 +119,13 @@ const VitalSigns = () => {
                                 <StyledTableCell align="left">{vitalSign.bloodPre}</StyledTableCell>
                                 <StyledTableCell align="left">{vitalSign.respiratoryRate}</StyledTableCell>
                                 <StyledTableCell align="left">{moment.unix(vitalSign.createdAt / 1000).format("MM/DD/YYYY")}</StyledTableCell>
-                                <StyledTableCell align="left">{vitalSign.diagnosis ? vitalSign.diagnosis : user.role === 'nurse' ? <Button variant="contained" onClick={() => handleVitalSign(vitalSign.id)}>Diagnose</Button> : 'Awaiting Review'}</StyledTableCell>
+                                <StyledTableCell align="left">
+                                    {
+                                        vitalSign.diagnosis ? vitalSign.diagnosis
+                                            : user.role === 'nurse' ? <Button variant="contained" onClick={() => handleVitalSign(vitalSign.id)}>Diagnose</Button>
+                                                :
+                                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}><Typography variant="body1">Awaiting Review</Typography> <Button variant="outlined">Get prediction from AI</Button></Box>
+                                    }</StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>
