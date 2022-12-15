@@ -5,17 +5,18 @@ import { useQuery, useMutation } from '@apollo/client';
 import { GET_EMERGENCY } from '../../queries/emergencyQueries';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { DELETE_EMERG } from '../../mutations/emergencyMutations';
-import { toastErrorBot } from '../../utils/utils'
+import { toastSuccessTop, toastErrorBot } from '../../utils/utils'
 import { GET_MOTIVATIONALTIP } from '../../queries/motivationalTipsQueries';
 
 export default function PatientHome() {
 
     const [description, setDescription] = useState();
+    const { user } = useAuthContext();
 
     const [deleteEmergencyAlert] = useMutation(DELETE_EMERG, {
         onCompleted: (data) => {
             if (data) {
-                alert('The emergency has been accpeted!');
+                toastSuccessTop('The emergency has been accpeted! Help is on the way!');
             }
         },
         onError: (error) => {
@@ -31,7 +32,7 @@ export default function PatientHome() {
             }
         },
         onError: (error) => {
-            alert(error.message);
+            toastErrorBot(error.message);
         },
         fetchPolicy: 'network-only'
     })
@@ -41,8 +42,7 @@ export default function PatientHome() {
             setDescription(data.motiavtionalTip.description);
         },
         onError: (error) => {
-            alert(error.message);
-            console.log(error.networkError);
+            toastErrorBot(error.message);
         },
         fetchPolicy: 'network-only'
     })
@@ -50,7 +50,7 @@ export default function PatientHome() {
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-            <Typography variant='h4'>Patient Home</Typography>
+            <Typography variant='h4'>Welcome, {user.firstName}</Typography>
 
             <Link style={{ fontSize: '1.4rem' }} to="/home/emergency">Send Emergency</Link>
 

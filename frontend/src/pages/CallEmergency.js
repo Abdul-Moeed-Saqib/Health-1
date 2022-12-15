@@ -8,6 +8,7 @@ import { useMutation} from '@apollo/client';
 import { ADD_EMERG } from '../mutations/emergencyMutations';
 //import { REQUIRE_AUTH } from '../mutations/userMutations';
 import { useAuthContext } from '../hooks/useAuthContext';
+import { toastSuccessTop, toastErrorBot } from '../utils/utils'
 
 const CallEmergency = () => {
     const navigate = useNavigate();
@@ -19,10 +20,11 @@ const CallEmergency = () => {
     const [addEmergencyAlert] = useMutation(ADD_EMERG, {
         onCompleted: (data) => {
             setIsLoading(false);
+            toastSuccessTop("Emergency has been send! Please Wait")
             navigate('/');
         },
         onError: (error) => {
-            alert(error.message);
+            toastErrorBot(error.message);
             setIsLoading(false);
         }
     })
