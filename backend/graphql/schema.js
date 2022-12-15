@@ -58,7 +58,7 @@ const VitalSignType = new GraphQLObjectType({
     heartRate: { type: GraphQLFloat },
     bloodPre: { type: GraphQLFloat },
     respiratoryRate: { type: GraphQLFloat },
-    createdAt: { type: GraphQLString},
+    createdAt: { type: GraphQLString },
     patient: {
       type: UserType,
       resolve: async (parent, args) => {
@@ -105,7 +105,7 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(VitalSignType),
       args: { id: { type: GraphQLString } },
       resolve: async (parent, args) => {
-        return VitalSign.find({ patient: args.id});
+        return await VitalSign.find({ patient: args.id });
       },
     },
     vitalSign: {
@@ -213,7 +213,7 @@ const mutation = new GraphQLObjectType({
             heartRate: args.heartRate,
             bloodPre: args.bloodPre,
             respiratoryRate: args.respiratoryRate,
-            patientId: args.parentId,
+            patient: args.patientId,
           });
           return vitalSign;
         } catch (error) {
