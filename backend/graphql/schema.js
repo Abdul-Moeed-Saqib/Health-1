@@ -70,6 +70,12 @@ const VitalSignType = new GraphQLObjectType({
   }),
 });
 
+const predictionType = new GraphQLObjectType({
+  name: "predictBloodPressure",
+  fields: () => ({
+    row: { type: GraphQLString }
+  })
+})
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQuery",
@@ -119,7 +125,7 @@ const RootQuery = new GraphQLObjectType({
       },
     },
     predictBloodPressure: {
-      type: GraphQLString,
+      type: predictionType,
       args: { bloodPre: { type: GraphQLNonNull(GraphQLFloat) } },
       resolve: async (parent, args) => {
         const { bloodPre } = args
@@ -130,13 +136,17 @@ const RootQuery = new GraphQLObjectType({
         const low = prediction.row[2];
 
         if (high > normal) {
-          return "high blood pressure";
+          return { row: "high blood pressure" };
         }
         else if (low < normal) {
-          return "low blood pressure";
+          return {
+            row: "low blood pressure"
+          };
         }
         else {
-          return "normal";
+          return {
+            row: "normal"
+          };
         }
       }
     }

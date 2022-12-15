@@ -141,7 +141,7 @@ const VitalSigns = () => {
                                                     {
                                                         prediction?.predictBloodPressure ?
                                                             selectedVital === vitalSign.id ?
-                                                                prediction.predictBloodPressure
+                                                                prediction.predictBloodPressure.row
                                                                 :
                                                                 <Button variant="outlined"
                                                                     onClick={() => {
