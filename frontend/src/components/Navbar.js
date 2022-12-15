@@ -25,7 +25,7 @@ export default function Navbar({ handleDrawerOpen, open, setOpen }) {
             user ?
               <Fragment>
                 <li>
-                  <Link to="#" >{`Welcome, ${user.firstName}`}</Link>
+                  <Link to="/" >{`Welcome, ${user.firstName}`}</Link>
                 </li>
                 <li><Link to="/" onClick={() => {
                   logout()

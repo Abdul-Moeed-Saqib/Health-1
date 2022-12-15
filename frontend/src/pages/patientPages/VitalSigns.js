@@ -149,7 +149,7 @@ const VitalSigns = () => {
                                                                         getPrediction({ variables: { bloodPre: parseFloat(vitalSign.bloodPre) } })
                                                                     }}
 
-                                                                >Get prediction from AI
+                                                                >Get prediction
                                                                 </Button>
                                                             :
                                                             <Button variant="outlined"
@@ -157,7 +157,7 @@ const VitalSigns = () => {
                                                                     setSelectVital(vitalSign.id)
                                                                     getPrediction({ variables: { bloodPre: parseFloat(vitalSign.bloodPre) } })
                                                                 }}
-                                                            >Get prediction from AI
+                                                            >Get prediction
                                                             </Button>
                                                     }
                                                 </Box>
