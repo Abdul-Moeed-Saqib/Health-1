@@ -2,16 +2,18 @@ const tf = require('@tensorflow/tfjs');
 require('@tensorflow/tfjs-node');
 const VitalSign = require("../models/vitalSign");
 
-exports.trainAndPredict = function (bloodPressure) {
+exports.trainAndPredict = async function (bloodPressure) {
 
+
+
+    // get all vital Signs where diagnosis is in one of the three results for training model
+    const vitalSigns = await VitalSign.find({ bloodPressure: { $in: ["high blood pressure", "normal", "low blood pressure"], $options: 'i' } })
+    console.log(vitalSigns);
     // define training Data
     const trainingData = tf.tensor2d(vitalSigns.map(item => [
         item.bodyTem, item.heartRate, item.Pre,
         item.respiratoryRate
     ]))
-
-    // get all vital Signs where diagnosis is in one of the three results for training model
-    const vitalSigns = VitalSign.find({ bloodPressure: { $in: ["high blood pressure", "normal", "low blood pressure"], $options: 'i' } })
 
     //tensor of output for training data
     //the values for species will be:
@@ -52,7 +54,7 @@ exports.trainAndPredict = function (bloodPressure) {
     //compile the model with an MSE loss function and Adam algorithm
     model.compile({
         loss: "meanSquaredError",
-        optimizer: tf.train.adam(learningRate),
+        optimizer: tf.train.adam(0.02),// learning rate
     })
     console.log(model.summary())
     //
@@ -64,13 +66,11 @@ exports.trainAndPredict = function (bloodPressure) {
         //train the model
         await model.fit(trainingData, outputData,
             {
-                epochs: epochs,
+                epochs: 100,
                 callbacks: { //list of callbacks to be called during training
                     onEpochEnd: async (epoch, log) => {
                         lossValue = log.loss;
-                        // console.log(`Epoch ${epoch}: lossValue = ${log.loss}`);
                         elapsedTime = Date.now() - startTime;
-                        // console.log('elapsed time: ' + elapsedTime)
                     }
                 }
             }
@@ -78,17 +78,16 @@ exports.trainAndPredict = function (bloodPressure) {
         )
 
         const results = model.predict(testingData);
-
+        var dataToSent
         results.array().then(array => {
             console.log(array[0][0])
             var resultForData1 = array[0];
             var resultForData2 = array[1];
             var resultForData3 = array[2];
-            var dataToSent = { row1: resultForData1, row2: resultForData2, row3: resultForData3 }
-            console.log(resultForData1)
-            res.status(200).send(dataToSent);
+            dataToSent = { row1: resultForData1, row2: resultForData2, row3: resultForData3 }
 
         })
+        return dataToSent
     }
-    run()
+    return run()
 };

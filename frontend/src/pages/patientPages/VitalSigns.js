@@ -14,8 +14,8 @@ import moment from 'moment'
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
-import { useQuery, useMutation } from "@apollo/client";
-import { GET_VITALSIGNS } from '../../queries/vitalSignQueries';
+import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
+import { GET_PREDICTION, GET_VITALSIGNS } from '../../queries/vitalSignQueries';
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { Fragment } from "react";
 import { UPDATE_DIAGNOSIS } from "../../mutations/vitalSignMutation";
@@ -68,7 +68,7 @@ const VitalSigns = () => {
             id: patientId
         },
         onError: (error) => {
-            alert(error.message);
+            toastErrorBot(error.message);
         },
         fetchPolicy: 'network-only'
     });
@@ -88,6 +88,14 @@ const VitalSigns = () => {
         }
     })
 
+    const [getPrediction, { loading: predictionLoading, data: prediction }] = useLazyQuery(GET_PREDICTION, {
+        onError: (error) => {
+            console.log(error);
+            toastErrorBot(error.message);
+        },
+        fetchPolicy: 'network-only'
+    })
+
     if (loading) {
         return <div>Loading...</div>
     }
@@ -96,6 +104,7 @@ const VitalSigns = () => {
         setOpen(true)
         setSelectVital(vitalId)
     }
+
 
     return (
         <Fragment>
@@ -124,7 +133,12 @@ const VitalSigns = () => {
                                         vitalSign.diagnosis ? vitalSign.diagnosis
                                             : user.role === 'nurse' ? <Button variant="contained" onClick={() => handleVitalSign(vitalSign.id)}>Diagnose</Button>
                                                 :
-                                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}><Typography variant="body1">Awaiting Review</Typography> <Button variant="outlined">Get prediction from AI</Button></Box>
+                                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                                    <Typography variant="body1">Awaiting Review</Typography>
+                                                    {
+                                                        prediction?.predictBloodPressure ? prediction?.predictBloodPressure : <Button variant="outlined" onClick={() => { getPrediction({ variables: { bloodPre: vitalSign.bloodPre } }) }}>Get prediction from AI</Button>
+                                                    }
+                                                </Box>
                                     }</StyledTableCell>
                             </StyledTableRow>
                         ))}

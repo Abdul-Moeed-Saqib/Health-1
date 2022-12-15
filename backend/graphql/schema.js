@@ -6,6 +6,7 @@ const { userQuery, userMutation, UserType } = require("./userSchema");
 const { requireAuth } = require("../middleware/requireAuth");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { trainAndPredict } = require('../AI/predictPressure')
 
 const {
   GraphQLObjectType,
@@ -69,6 +70,15 @@ const VitalSignType = new GraphQLObjectType({
   }),
 });
 
+const predictionType = new GraphQLObjectType({
+  name: "predictBloodPressure",
+  fields: () => ({
+    row1: { type: GraphQLFloat },
+    row2: { type: GraphQLFloat },
+    row3: { type: GraphQLFloat }
+  })
+})
+
 const RootQuery = new GraphQLObjectType({
   name: "RootQuery",
   fields: {
@@ -116,6 +126,13 @@ const RootQuery = new GraphQLObjectType({
         return VitalSign(findById(args.id));
       },
     },
+    predictBloodPressure: {
+      type: predictionType,
+      args: { bloodPre: { type: GraphQLNonNull(GraphQLFloat) } },
+      resolve: async (parent, args) => {
+        return await trainAndPredict(args.bloodPre)
+      }
+    }
   },
 });
 
