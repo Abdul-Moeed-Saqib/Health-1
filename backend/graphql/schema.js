@@ -135,15 +135,15 @@ const RootQuery = new GraphQLObjectType({
         const normal = prediction.row[1];
         const low = prediction.row[2];
 
-        if (high > normal) {
+        if (high > normal && high > low) {
           return { row: "high blood pressure" };
         }
-        else if (low < normal) {
+        else if (low > normal && low > high) {
           return {
             row: "low blood pressure"
           };
         }
-        else if (normal > high && normal < low) {
+        else {
           return {
             row: "normal"
           };
