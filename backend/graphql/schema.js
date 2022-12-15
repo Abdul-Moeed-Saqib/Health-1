@@ -59,6 +59,7 @@ const VitalSignType = new GraphQLObjectType({
     bloodPre: { type: GraphQLFloat },
     respiratoryRate: { type: GraphQLFloat },
     createdAt: { type: GraphQLString },
+    diagnosis: { type: GraphQLString },
     patient: {
       type: UserType,
       resolve: async (parent, args) => {
@@ -220,6 +221,25 @@ const mutation = new GraphQLObjectType({
           throw Error(error.message);
         }
       },
+    },
+    updateDiagnosis: {
+      type: VitalSignType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLString) },
+        diagnosis: { type: GraphQLNonNull(GraphQLString) }
+      },
+      resolve: async (parent, args, context) => {
+        await requireAuth(context)
+        try {
+          const { id, diagnosis } = args
+          const updatedVitalSign = await VitalSign.findByIdAndUpdate(id, {
+            diagnosis
+          }, { new: true })
+          return updatedVitalSign;
+        } catch (error) {
+          throw Error(error.message);
+        }
+      }
     },
     deleteVitalSign: {
       type: VitalSignType,

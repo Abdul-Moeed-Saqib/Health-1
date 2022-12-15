@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -9,9 +10,16 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import { Box } from '@mui/material';
-
-import { useQuery } from "@apollo/client";
+import moment from 'moment'
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import TextField from '@mui/material/TextField';
+import { useQuery, useMutation } from "@apollo/client";
 import { GET_VITALSIGNS } from '../../queries/vitalSignQueries';
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { Fragment } from "react";
+import { UPDATE_DIAGNOSIS } from "../../mutations/vitalSignMutation";
+import { toastErrorBot } from "../../utils/utils";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -33,12 +41,29 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
 
 const VitalSigns = () => {
     const location = useLocation()
+    const { user } = useAuthContext()
+    const [open, setOpen] = useState(false);
+    const handleClose = () => setOpen(false);
+
+    const [diagnosis, setDiagnosis] = useState('')
+    const [selectedVital, setSelectVital] = useState()
 
     const patientId = location.state?.patientId;
-    const {loading, data, refetch} = useQuery(GET_VITALSIGNS, {
+    const { loading, data, refetch } = useQuery(GET_VITALSIGNS, {
         variables: {
             id: patientId
         },
@@ -48,36 +73,83 @@ const VitalSigns = () => {
         fetchPolicy: 'network-only'
     });
 
+    const [updateDiagnosis] = useMutation(UPDATE_DIAGNOSIS, {
+        variables: {
+            id: selectedVital,
+            diagnosis
+        },
+        onCompleted: () => {
+            setOpen(false)
+            refetch()
+        },
+        onError: (error) => {
+            setOpen(false)
+            toastErrorBot(error.message)
+        }
+    })
+
     if (loading) {
         return <div>Loading...</div>
     }
 
-    return ( 
-        <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-            <TableHead>
-                <TableRow>
-                    <StyledTableCell align="left">Body Temperature</StyledTableCell>
-                    <StyledTableCell align="left">Heart Rate</StyledTableCell>
-                    <StyledTableCell align="left">Blood Pressure</StyledTableCell>
-                    <StyledTableCell align="left">Respiratory Rate</StyledTableCell>
-                    <StyledTableCell align="left">Added</StyledTableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {data && data.vitalSigns.length > 0 && data.vitalSigns.map((vitalSign) => (
-                    <StyledTableRow key={vitalSign._id}>
-                        <StyledTableCell align="left">{vitalSign.bodyTem}</StyledTableCell>
-                        <StyledTableCell align="left">{vitalSign.heartRate}</StyledTableCell>
-                        <StyledTableCell align="left">{vitalSign.bloodPre}</StyledTableCell>
-                        <StyledTableCell align="left">{vitalSign.respiratoryRate}</StyledTableCell>
-                        <StyledTableCell align="left">{vitalSign.createdAt}</StyledTableCell>
-                    </StyledTableRow>
-                ))}
-            </TableBody>
-        </Table>
-    </TableContainer>
-     );
+    const handleVitalSign = (vitalId) => {
+        setOpen(true)
+        setSelectVital(vitalId)
+    }
+
+    return (
+        <Fragment>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                    <TableHead>
+                        <TableRow>
+                            <StyledTableCell align="left">Body Temperature</StyledTableCell>
+                            <StyledTableCell align="left">Heart Rate</StyledTableCell>
+                            <StyledTableCell align="left">Blood Pressure</StyledTableCell>
+                            <StyledTableCell align="left">Respiratory Rate</StyledTableCell>
+                            <StyledTableCell align="left">Added</StyledTableCell>
+                            <StyledTableCell align="left">Diagnosis</StyledTableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {data && data.vitalSigns.length > 0 && data.vitalSigns.map((vitalSign) => (
+                            <StyledTableRow key={vitalSign.id}>
+                                <StyledTableCell align="left">{vitalSign.bodyTem}</StyledTableCell>
+                                <StyledTableCell align="left">{vitalSign.heartRate}</StyledTableCell>
+                                <StyledTableCell align="left">{vitalSign.bloodPre}</StyledTableCell>
+                                <StyledTableCell align="left">{vitalSign.respiratoryRate}</StyledTableCell>
+                                <StyledTableCell align="left">{moment.unix(vitalSign.createdAt / 1000).format("MM/DD/YYYY")}</StyledTableCell>
+                                <StyledTableCell align="left">{vitalSign.diagnosis ? vitalSign.diagnosis : user.role === 'nurse' ? <Button variant="contained" onClick={() => handleVitalSign(vitalSign.id)}>Diagnose</Button> : 'Awaiting Review'}</StyledTableCell>
+                            </StyledTableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={{ ...style, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                        Write a Medical Diagnosis
+                    </Typography>
+                    <TextField
+                        sx={{ m: '1rem 0', width: '350px' }}
+                        id="outlined-multiline-static"
+                        label="Diagnosis"
+                        multiline
+                        rows={4}
+                        value={diagnosis}
+                        onChange={e => setDiagnosis(e.target.value)}
+                        placeholder="Is the patient healthy? or need to see a doctor..."
+                    />
+                    <Button variant="contained" onClick={updateDiagnosis}>Confirm</Button>
+                </Box>
+            </Modal>
+        </Fragment>
+    );
 }
- 
+
 export default VitalSigns;
