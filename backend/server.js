@@ -39,7 +39,7 @@ app.use('/graphql', graphqlHTTP((request, response) => {
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     app.listen(process.env.PORT, () => {
-      console.log('listening on port', process.env.PORT);
+      console.log('listening on port and connected to database', process.env.PORT);
     })
   })
   .catch((error) => {
