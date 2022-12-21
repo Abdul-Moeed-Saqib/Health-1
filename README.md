@@ -1,70 +1,48 @@
-# Getting Started with Create React App
+# Health 1
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Health-1 allows users such as nurse to track of patients with their health.
 
-## Available Scripts
+## Capabilities
 
-In the project directory, you can run:
 
-### `npm start`
+### `Patients can send emergency:`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+![alt text](https://cdn.discordapp.com/attachments/602366822737772556/1054989369888473128/image.png)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Patients can send a real-time emergency that can be viewed in nurse page. 
+Nurse can accept that emergency and it will be saved into history. All the accepted emergencies by the nurses will stay at history until a patient logins to their account and it will be removed from history.
 
-### `npm test`
+With that, patient will be notified that their emergency is accepted. 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Quick tip: Patient can see random tips that was created by nurses randomly in their homepage.
 
-### `npm run build`
+![alt text](https://cdn.discordapp.com/attachments/602366822737772556/1054991053473714207/image.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<br>
+<br>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `Tracking Patients with their Vital Signs:`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![alt text](https://cdn.discordapp.com/attachments/602366822737772556/1054995115334172742/image.png)
 
-### `npm run eject`
+Registered patients can be viewed by the nurse which will allow them to add their vital signs and view them.
+Patients can also add their vital sign on their own. 
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Nurse can diagnosis a patient whether depending on their vital signs, which patients can view the result from the nurse. 
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<br>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+![alt text](https://cdn.discordapp.com/attachments/602366822737772556/1055000103762526259/image.png)
+![alt text](https://cdn.discordapp.com/attachments/602366822737772556/1055001365220442204/image.png)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### `Prediction with an AI`
 
-## Learn More
+If a nurse haven't given the result yet, patients can run prediction on their blood pressure using machine learning to identify whether he has a normal, high or low blood pressure
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+![alt text](https://cdn.discordapp.com/attachments/602366822737772556/1055002503164477450/image.png)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Once a patient click the prediction button on a specific vital sign, it will give the result based on the blood pressure using machine learning
 
-### Code Splitting
+### `Self-Assement`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Depends**
