@@ -695,3 +695,9 @@ i {
 .tip-style h5 {
   font-size: 18px;
 }
+
+.h1Logo {
+  height: 180px;
+  position: relative;
+  left: 50px;
+}

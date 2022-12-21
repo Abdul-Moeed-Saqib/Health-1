@@ -9,6 +9,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import '../resource/css/auth.css'
 import { useAuthContext } from '../hooks/useAuthContext'
 import Navbar from '../components/Navbar';
+import logo from './h1.png'
 
 export default function Auth() {
 
@@ -23,6 +24,7 @@ export default function Auth() {
             <Navbar />
             <Box className='container-auth' sx={{ height: '91vh', width: '100vw', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <img className='h1Logo' src={logo} alt="Logo" />
                     <TabContext value={tabValue}>
                         <Box sx={{ width: '100%' }}>
                             <TabList onChange={handleChange} aria-label="lab API tabs example" centered>
