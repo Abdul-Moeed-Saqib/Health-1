@@ -24,7 +24,7 @@ export default function Login() {
         onCompleted: (data) => {
             const { login } = data
             localStorage.setItem('user', JSON.stringify(login));
-            localStorage.setItem('comp308Token', data.login.token)
+            localStorage.setItem('auth', data.login.token)
             // updating the auth context
             dispatch({ type: 'LOGIN', payload: login });
             if (login.role === 'nurse') {

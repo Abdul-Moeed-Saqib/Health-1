@@ -20,7 +20,7 @@ const link = createHttpLink({
 const setAuthorizationLink = setContext((request, prevContext) => ({
   headers: {
     ...prevContext.headers,
-    authorization: `Bearer ${localStorage.getItem('comp308Token')}`
+    authorization: `Bearer ${localStorage.getItem('auth')}`
   }
 }))
 

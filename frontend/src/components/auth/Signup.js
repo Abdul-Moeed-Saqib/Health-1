@@ -32,7 +32,7 @@ export default function Signup() {
         onCompleted: (data) => {
 
             localStorage.setItem('user', JSON.stringify(data.register));
-            localStorage.setItem('comp308Token', data.register.token)
+            localStorage.setItem('auth', data.register.token)
             // updating the auth context
             dispatch({ type: 'LOGIN', payload: data.register });
             setIsLoading(false);
